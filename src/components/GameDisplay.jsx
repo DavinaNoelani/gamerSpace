@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { getGames, reset, addComment } from '../features/game/gameSlice';
 import avatar from '../images/girl_mountain.jpg';
