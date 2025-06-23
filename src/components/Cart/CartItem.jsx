@@ -1,0 +1,69 @@
+import React from 'react';
+import { ChevronDown, ChevronUp } from '../../icons.js';
+import { removeItem, increase, decrease } from '../../features/cart/cartSlice.js';
+import { useDispatch, useSelector } from 'react-redux';
+
+const CartItem = ({ setItemCount, itemCount, ribbon, setRibbon }) => {
+
+    const dispatch = useDispatch()
+
+    const { cartItems } = useSelector(state => state.cart)
+
+    const remove = () => {
+        setItemCount(itemCount - 1)
+        if (itemCount === 0) {
+            setRibbon(false)
+            console.log(ribbon, 'ribbon')
+        }
+    }
+
+    return (
+        <>
+            {cartItems.map(item => (
+                <article className='cart-item'>
+                    <img src={item.img} alt={item.title} className='photos img-fluid' />
+                    <div>
+                        <h4>{item.title}</h4>
+                        <h4 className='item-price'>${item.price}</h4>
+                        <button
+                            className='remove-btn'
+                            onClick={() => {
+                                dispatch(removeItem(item.id))
+                                remove()
+                            }}
+                        >
+                            remove
+                        </button>
+                    </div>
+                    <div>
+
+                        <button
+                            className='amount-btn'
+                            onClick={() => dispatch(increase(item.id))}
+                        >
+                            <ChevronUp />
+                        </button>
+
+                        <p className='amount'>{item.amount}</p>
+
+                        <button
+                            className='amount-btn'
+                            onClick={() => {
+                                if (item.amount === 1) {
+                                    dispatch(removeItem(item.id))
+                                    return;
+                                }
+                                dispatch(decrease(item.id))
+                            }}
+                        >
+                            <ChevronDown />
+                        </button>
+                    </div>
+                </article>
+            ))}
+
+        </>
+    );
+};
+
+export default CartItem;
