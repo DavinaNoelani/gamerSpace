@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useEffect, useState } from 'react';
 import Home from './components/Home';
 import Nav from './components/Nav';
 import Admin from './components/Admin/Admin';
@@ -17,13 +18,12 @@ import Zoom from './components/Zoom';
 
 
 
+
 function App() {
 
     const dispatch = useDispatch();
     const { cartItems } = useSelector((state) => state.cart);
     const { isOpen } = useSelector((state) => state.modal);
-
-
     const [theme, setTheme] = useState('')
     const [userInfo, setUserInfo] = useState([])
     const [openSave, setOpenSave] = useState(false)
@@ -44,121 +44,125 @@ function App() {
 
 
     return (
-        <div id={theme} className='app'>
-            <Router>
+        <>
+      
+                    <div id={theme} className='app'>
+                        <Router>
 
-                <Nav
-                    theme={theme}
-                    setTheme={setTheme}
-                    openSave={openSave}
-                    setOpenSave={setOpenSave}
-                    itemCount={itemCount}
-                    setItemCount={setItemCount}
-                    ribbon={ribbon}
-                    setRibbon={setRibbon}
-                    openCart={openCart}
-                    setOpenCart={setOpenCart}
-                    logModal={logModal}
-                    setLogModal={setLogModal}
-                    openLogin={openLogin}
-                    setOpenLogin={setOpenLogin}
-                />
-
-                <SideNav />
-
-                {isOpen &&
-                    <Modal
-                        itemCount={itemCount}
-                        setItemCount={setItemCount}
-                        ribbon={ribbon}
-                        setRibbon={setRibbon}
-                    />
-                }
-
-                <Routes>
-                    <Route path='/'
-                        element={
-                            <Home
+                            <Nav
                                 theme={theme}
                                 setTheme={setTheme}
+                                openSave={openSave}
+                                setOpenSave={setOpenSave}
+                                itemCount={itemCount}
+                                setItemCount={setItemCount}
+                                ribbon={ribbon}
+                                setRibbon={setRibbon}
+                                openCart={openCart}
+                                setOpenCart={setOpenCart}
                                 logModal={logModal}
                                 setLogModal={setLogModal}
                                 openLogin={openLogin}
                                 setOpenLogin={setOpenLogin}
-                            />}
-                    />
-                    <Route
-                        path='/admin'
-                        element={
-                            <Admin
-
                             />
-                        }
-                    />
-                    <Route
-                        path='/add-user'
-                        element={
-                            <UserInfo
-                                userInfo={userInfo}
-                                setUserInfo={setUserInfo}
-                            />
-                        } />
 
-                    <Route
-                        path='/games'
-                        element={
-                            <GameDisplay
-                                itemCount={itemCount}
-                                setItemCount={setItemCount}
-                                ribbon={ribbon}
-                                setRibbon={setRibbon}
-                                cart={cart}
-                                setCart={setCart}
-                            />
-                        }
-                    />
+                            <SideNav />
 
-                    <Route
-                        path='/merch'
-                        element={
-                            <MerchDisplay
-                                itemCount={itemCount}
-                                setItemCount={setItemCount}
-                                ribbon={ribbon}
-                                setRibbon={setRibbon}
-                                cart={cart}
-                                setCart={setCart}
-                                idForMerch={idForMerch}
-                                setId={setId}
-                            />
-                        }
-                    />
+                            {isOpen &&
+                                <Modal
+                                    itemCount={itemCount}
+                                    setItemCount={setItemCount}
+                                    ribbon={ribbon}
+                                    setRibbon={setRibbon}
+                                />
+                            }
 
-                    <Route
-                        path='/blog'
-                        element={
-                            <Blog
+                            <Routes>
+                                <Route path='/'
+                                    element={
+                                        <Home
+                                            theme={theme}
+                                            setTheme={setTheme}
+                                            logModal={logModal}
+                                            setLogModal={setLogModal}
+                                            openLogin={openLogin}
+                                            setOpenLogin={setOpenLogin}
+                                        />}
+                                />
+                                <Route
+                                    path='/admin'
+                                    element={
+                                        <Admin
 
-                            />
-                        }
-                    />
-                    
-                    <Route
-                        path='/search'
-                        element={
-                            <Zoom
+                                        />
+                                    }
+                                />
+                                <Route
+                                    path='/add-user'
+                                    element={
+                                        <UserInfo
+                                            userInfo={userInfo}
+                                            setUserInfo={setUserInfo}
+                                        />
+                                    } />
 
-                            />
-                        }
-                    />
+                                <Route
+                                    path='/games'
+                                    element={
+                                        <GameDisplay
+                                            itemCount={itemCount}
+                                            setItemCount={setItemCount}
+                                            ribbon={ribbon}
+                                            setRibbon={setRibbon}
+                                            cart={cart}
+                                            setCart={setCart}
+                                        />
+                                    }
+                                />
 
-                </Routes>
+                                <Route
+                                    path='/merch'
+                                    element={
+                                        <MerchDisplay
+                                            itemCount={itemCount}
+                                            setItemCount={setItemCount}
+                                            ribbon={ribbon}
+                                            setRibbon={setRibbon}
+                                            cart={cart}
+                                            setCart={setCart}
+                                            idForMerch={idForMerch}
+                                            setId={setId}
+                                        />
+                                    }
+                                />
 
-                <Footer />
-            </Router>
+                                <Route
+                                    path='/blog'
+                                    element={
+                                        <Blog
+
+                                        />
+                                    }
+                                />
+
+                                <Route
+                                    path='/search'
+                                    element={
+                                        <Zoom
+
+                                        />
+                                    }
+                                />
+
+                            </Routes>
+
+                            <Footer />
+                        </Router>
 
 
-        </div>
+                    </div>
+            
+        </>
     );
 }
 

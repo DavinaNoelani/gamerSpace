@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import { createGame } from '../../features/game/gameSlice';
 
@@ -6,14 +6,24 @@ import { createGame } from '../../features/game/gameSlice';
 
 const GameForm = () => {
 
+
+
     const [console, setConsole] = useState('')
     const [title, setTitle] = useState('')
     const [price, setPrice] = useState('')
     const [rating, setRating] = useState('')
     const [description, setDescription] = useState('')
     const [gameImg, setGameImg] = useState('')
-    // const [image, setImage] = useState('')
-    // const [saveGame, setSaveGame] = useState([])
+
+    useEffect(() => {
+        return () => {
+            if (gameImg) {
+                URL.revokeObjectURL(gameImg);
+            }
+        };
+    }, [gameImg]);
+
+
 
     const dispatch = useDispatch();
 
@@ -21,40 +31,23 @@ const GameForm = () => {
         e.preventDefault();
 
         const formData = new FormData();
-        formData.append('console', console);
         formData.append('title', title);
+        formData.append('console', console);
         formData.append('price', price);
         formData.append('rating', rating);
         formData.append('description', description);
-        formData.append('gameImg', gameImg); // this is the actual File object
+        formData.append('gameImg', gameImg); // raw file
 
-        dispatch(createGame(formData));
+        dispatch(createGame(formData)); // You’ll handle this in Redux
 
-        // Reset fields
-        setConsole('');
+        // Reset form fields
         setTitle('');
+        setConsole('');
         setPrice('');
         setRating('');
         setDescription('');
-        setGameImg('');
-    };
-
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-
-        reader.onloadend = () => {
-            setGameImg(reader.result); // base64 string
-        };
-
-        if (file) {
-            reader.readAsDataURL(file);
-        }
-    };
-
-
-
-
+        setGameImg(null);
+};
 
 
     return (
@@ -64,19 +57,6 @@ const GameForm = () => {
                 <form className="form" method="post">
 
                     <h1 className="card-header edit-head">&#10010; Game</h1>
-
-                    <label htmlFor="console" className="inputLabels">
-
-                    </label>
-                    <input
-                        onChange={(e) => setConsole(e.target.value)}
-                        type='text'
-                        id="console"
-                        name="console"
-                        value={console}
-                        className='form-input'
-                        placeholder="Console"
-                    />
 
                     <label htmlFor="title" className="inputLabels">
 
@@ -88,7 +68,20 @@ const GameForm = () => {
                         name="title"
                         value={title}
                         className='form-input'
-                        placeholder="Title"
+                        placeholder="Name of Game"
+                    />
+
+                    <label htmlFor="console" className="inputLabels">
+
+                    </label>
+                    <input
+                        onChange={(e) => setConsole(e.target.value)}
+                        type='text'
+                        id="console"
+                        name="console"
+                        value={console}
+                        className='form-input'
+                        placeholder="Setting name of console (e.g. Nintendo Switch, Wii U, etc.)"
                     />
 
                     <label htmlFor="price" className="inputLabels">
@@ -101,7 +94,7 @@ const GameForm = () => {
                         name="price"
                         value={price}
                         className='form-input'
-                        placeholder="price"
+                        placeholder="Price"
                     />
 
                     <label htmlFor="rating" className="inputLabels">
@@ -132,17 +125,21 @@ const GameForm = () => {
 
                     <label htmlFor="gameImg" className="inputLabels">
 
-                    </label>
+                    </label>                  
 
                     <input
+                        type="file"
                         id="gameImg"
-                        className='form-input'
-                        type='file'
+                        className="form-input"
                         name="gameImg"
-                        accept='image/*'
-                        onChange={() => setGameImg(handleImageChange)}
-                        
+                        accept="image/*"
+                        onChange={(e) => setGameImg(e.target.files[0])}
                     />
+
+                    {gameImg && (
+                        <img src={URL.createObjectURL(gameImg)} alt="Preview" width="150" />
+                    )}
+
 
                     <button onClick={(e) => addGameHandle(e)} className='form-btn'>
                         &#128190;

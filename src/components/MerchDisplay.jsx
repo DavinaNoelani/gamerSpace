@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { createCart } from "../features/cart/cartSlice";
+import { addToCart } from "../features/cart/cartSlice";
 import { getMerch } from '../features/merch/merchSlice';
 import hearts from '../images/hearts.png'
 import Header from "./Header";
@@ -151,7 +151,7 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
         if (select) select.selectedIndex = 0;
     }
 
-    const addToCart = (id, price, name, img) => {
+    const addToCartHandle = (id, price, name, img) => {
         setItemCount(itemCount + 1)
         setRibbon(true)
 
@@ -162,7 +162,7 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
             img: img,
             amount: 1
         }
-        dispatch(createCart(addItem))
+        dispatch(addToCart(addItem))
     }
 
 
@@ -275,7 +275,7 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
                                         <div className="h2">{item.name}</div>
                                         <p className="merch-price">${item.price}</p>
                                         <p className="merch-description">{item.description}</p>
-                                        <button className="addToCart" onClick={() => addToCart(item.id || item._id, item.price, item.name, item.image)}>Add to Cart</button>
+                                        <button className="addToCart" onClick={() => addToCartHandle(item.id || item._id, item.price, item.name, item.image)}>Add to Cart</button>
                                     </div>
                                 </div>
                             ))}

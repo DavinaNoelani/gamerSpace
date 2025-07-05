@@ -4,8 +4,8 @@ import { getGames, reset, addComment } from '../features/game/gameSlice';
 import avatar from '../images/girl_mountain.jpg';
 import { dateConversion } from "../constants/functions";
 import Header from "./Header";
-import { createCart } from "../features/cart/cartSlice";
-import hearts from '../images/hearts.png'
+import { addToCart, syncCartWithServer } from "../features/cart/cartSlice";
+import hearts from '../images/hearts.png';
 
 
 
@@ -13,7 +13,6 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
 
     const dispatch = useDispatch();
     const { games, isError } = useSelector((state) => state.game);
-
     const [showComments, setShowComments] = useState(false)
     const [message, setMessage] = useState('')
     const [showFilter, setShowFilter] = useState(false)
@@ -26,6 +25,7 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
     // const [showFilter, setShowFilter] = useState(false)
     const [imgSrc, setImgSrc] = useState('')
     const [fullView, setFullView] = useState(false)
+    const cartItems = useSelector((state) => state.cart.cartItems)
 
 
     useEffect(() => {
@@ -68,18 +68,17 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
         setHideButton(false)
     }
 
-    const addToCart = (id, price, title, img) => {
+    const addToCartHandle = () => {
         setItemCount(itemCount + 1)
         setRibbon(true)
-
-        const addItem = {
-            id: id,
-            title: title,
-            price: price,
-            img: img,
+        dispatch(addToCart({
+            id: cartItems.length + 1,
+            price: cartItems.price,
+            title: cartItems.title,
+            image: cartItems.image,
             amount: 1
-        }
-        dispatch(createCart(addItem))
+        }))
+        dispatch(syncCartWithServer(cartItems))
     }
 
     const searchHandle = (e) => {
@@ -342,7 +341,7 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
                                                         <div className="font-on-display price-text">
                                                             &#128178; {game.price}
                                                         </div>
-                                                        <button className="buy-btn" onClick={() => addToCart(game._id, game.price, game.title, game.image)}>&#128722;</button>
+                                                        <button className="buy-btn" onClick={() => addToCartHandle(game._id, game.price, game.title, game.image)}>&#128722;</button>
                                                     </div>
                                                 </div>
 

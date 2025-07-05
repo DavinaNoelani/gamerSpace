@@ -1,17 +1,33 @@
 import { configureStore } from '@reduxjs/toolkit';
-import gameReducer from '../game/gameSlice'
-import merchReducer from '../merch/merchSlice'
-import userReducer from '../user/userSlice'
-import modalReducer from '../modal/modalSlice'
-import cartReducer from '../cart/cartSlice'
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // ✅ correct import
 
+// Reducers
+import gameReducer from '../game/gameSlice';
+import merchReducer from '../merch/merchSlice';
+import userReducer from '../user/userSlice';
+import modalReducer from '../modal/modalSlice';
+import cartReducer from '../cart/cartSlice'; // ❌ no need to import actions like addToCart here
+
+// Persist config
+const persistConfig = {
+  key: 'cart',
+  storage,
+};
+
+
+//Combine reducers
+// Note: You can also use combineReducers from 'redux' if you prefer
+const rootReducer = {
+  game: gameReducer,
+  merch: merchReducer,
+  user: userReducer,
+  modal: modalReducer,
+  cart: persistReducer(persistConfig, cartReducer), // ✅ wrapped only cart
+};
 
 export const store = configureStore({
-    reducer: {
-        game: gameReducer,
-        merch: merchReducer,
-        user: userReducer,
-        modal: modalReducer,
-        cart: cartReducer
-    }
-})
+  reducer: rootReducer,
+});
+
+export const persistor = persistStore(store);

@@ -1,5 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import cartItems from '../../cartItems';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+export const syncCartWithServer = createAsyncThunk(
+  'cart/sync',
+  async (cartItems, thunkAPI) => {
+    try {
+      const userId = thunkAPI.getState().auth.user._id;
+      const response = await axios.post('/api/cart', {
+        userId,
+        items: cartItems,
+      });
+      return response.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
 
 const initialState = {
   cartItems: [],
@@ -17,21 +34,35 @@ const cartSlice = createSlice({
     clearCart: (state) => {
       state.cartItems = [];
     },
+    resetCart:() => initialState,
     removeItem: (state, action) => {
       const itemId = action.payload;
       state.cartItems = state.cartItems.filter((item) => item.id !== itemId);
     },
-    createCart: (state, action) => {
-      const cart = action.payload
-      state.cartItems.push(cart) 
+    addToCart: (state, { payload }) => {
+      const existing = state.cartItems.find(item => item.id === payload.id);
+      if (existing) {
+        existing.amount += payload.amount || 1;
+      } else {
+        state.cartItems.push({
+          ...payload,
+          amount: payload.amount || 1,
+        });
+      }
     },
     increase: (state, { payload }) => {
       const cartItem = state.cartItems.find((item) => item.id === payload.id);
-      cartItem.amount = cartItem.amount + 1;
+      if (cartItem) {
+        cartItem.amount += 1;
+      }
     },
     decrease: (state, { payload }) => {
       const cartItem = state.cartItems.find((item) => item.id === payload.id);
-      cartItem.amount = cartItem.amount - 1;
+      if (cartItem && cartItem.amount > 1) {
+        cartItem.amount -= 1;
+      } else {
+        state.cartItems = state.cartItems.filter((item) => item.id !== payload.id);
+      }
     },
     calculateTotals: (state) => {
       let amount = 0;
@@ -44,9 +75,10 @@ const cartSlice = createSlice({
       state.total = total;
     },
   },
+
 });
 
 console.log(cartSlice);
 
-export const { clearCart, removeItem, increase, decrease, calculateTotals, createCart } = cartSlice.actions;
+export const { clearCart, removeItem, increase, decrease, calculateTotals, addToCart, resetCart } = cartSlice.actions;
 export default cartSlice.reducer;

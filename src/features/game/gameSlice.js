@@ -24,29 +24,33 @@ export const getGames = createAsyncThunk(
     }
 )
 
-// create a game
+// create game
+// This function is used to create a new game by sending a POST request to the server with the game data.
+// It uses FormData to handle file uploads, allowing the user to upload images along with other game details.
+// The function is an asynchronous thunk action that can be dispatched in a Redux application.
 export const createGame = createAsyncThunk('game/create', async (formData, thunkAPI) => {
     try {
-        const response = await axios.post('/api/games', formData, {
+        const response = await axios.post(`${API_URL}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         });
         return response.data;
     } catch (error) {
-        return thunkAPI.rejectWithValue(error.response.data);
+        return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
 });
 
+// await axios.put(`${API_URL}/edit-game/${sentToRedux.id}`, {...})
 // edit game
 export const editGame = createAsyncThunk(
     'games/edit',
     async (sentToRedux, thunkAPI) => {
         try {
             console.log(sentToRedux)
-            const response = await axios.put(API_URL + "/edit-game/" + sentToRedux.id,
+            const response = await axios.put(`${API_URL}/edit-game/${sentToRedux.id}`,
                 { title: sentToRedux.title });
-            getGames()
+            await thunkAPI.dispatch(getGames())
             return response.data
         } catch (error) {
             return thunkAPI.rejectWithValue('edit not working');
@@ -60,8 +64,8 @@ export const deleteGame = createAsyncThunk(
     'games/delete',
     async (id, thunkAPI) => {
         try {
-            const response = await axios.delete(API_URL + id);
-            getGames()
+            const response = await axios.delete(`${API_URL}/${id}`);
+            await thunkAPI.dispatch(getGames());
             return response.data
         } catch (error) {
             return thunkAPI.rejectWithValue('delete not working');
@@ -74,9 +78,8 @@ export const addComment = createAsyncThunk(
     'games/add-comment',
     async (sentToRedux, thunkAPI) => {
         try {
-            const response = await axios.put(API_URL + '/add-comment/' + sentToRedux.id,
-                { comment: sentToRedux.newComments });
-            getGames()
+            const response = await axios.put(`${API_URL}/add-comment/${sentToRedux.id}`, { comment: sentToRedux.comment });
+            await thunkAPI.dispatch(getGames());
             return response.data
         } catch (error) {
             return thunkAPI.rejectWithValue('add comment not working')
