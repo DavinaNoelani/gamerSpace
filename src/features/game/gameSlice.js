@@ -25,18 +25,18 @@ export const getGames = createAsyncThunk(
 )
 
 // create a game
-export const createGame = createAsyncThunk(
-    'new-game',
-    async (gameData, thunkAPI) => {
-        try {
-            const response = await axios.post(API_URL + "/new-game", gameData);
-
-            return response.data
-        } catch (error) {
-            return thunkAPI.rejectWithValue('create not working')
-        }
+export const createGame = createAsyncThunk('game/create', async (formData, thunkAPI) => {
+    try {
+        const response = await axios.post('/api/games', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data);
     }
-);
+});
 
 // edit game
 export const editGame = createAsyncThunk(

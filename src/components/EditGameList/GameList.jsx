@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Games from './Games'
 import { getGames, editGame, deleteGame } from '../../features/game/gameSlice';
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,7 +13,7 @@ const GameList = () => {
             console.log('error');
         }
         dispatch(getGames());
-   
+
     }, [dispatch, isError])
 
     const [gamez, setGamez] = useState(games)
@@ -28,7 +28,7 @@ const GameList = () => {
     const editGameHandle = (id, newTitle) => {
         const editedGameList = gamez.map(game => {
             if (id === game._id) {
-                return {...game, title: newTitle}
+                return { ...game, title: newTitle }
             }
             return game
         })
@@ -39,31 +39,31 @@ const GameList = () => {
         const sendToRedux = {
             id: id,
             title: newTitle
-            
+
         }
 
         console.log(sendToRedux, ' sent')
-        
+
         setGamez(editedGameList)
         dispatch(editGame(sendToRedux))
     }
 
     const gameList = gamez
-    .map((game) => 
-        <Games 
-            id={game._id}
-            title={game.title}
-            console={game.console}
-            image={game.image}
-            key={game._id}
-            deleteGameHandle={deleteGameHandle}
-            editGameHandle={editGameHandle}
-        />
-    )
+        .map((game) =>
+            <Games
+                id={game._id}
+                title={game.title}
+                console={game.console}
+                image={game.image}
+                key={game._id}
+                deleteGameHandle={deleteGameHandle}
+                editGameHandle={editGameHandle}
+            />
+        )
 
     const gamesNoun = gameList.length !== 1 ? 'games' : 'game';
     const headingText = `${gameList.length} ${gamesNoun} remaining`;
-    
+
 
     return (
         <>

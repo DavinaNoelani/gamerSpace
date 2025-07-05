@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { createCart } from "../features/cart/cartSlice";
-import { getMerch, addComment } from '../features/merch/merchSlice';
+import { getMerch } from '../features/merch/merchSlice';
 import hearts from '../images/hearts.png'
 import Header from "./Header";
 import Zoom from "./Zoom";
@@ -25,7 +25,7 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
     const [search, setSearch] = useState('')
     const [matchesList, setMatchesList] = useState([])
     const [matches, setMatches] = useState(false)
-    const [size, setSize] = useState('')
+    const [size, setSize] = useState([])
     const [type, setType] = useState('')
     const [imgSrc, setImgSrc] = useState('')
     const [fullView, setFullView] = useState(false)
@@ -35,7 +35,10 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
 
 
     useEffect(() => {
-        window.scrollTo(0, 0)
+        if (user) {
+            setId(user._id) // Set the user ID for the cart
+        }
+        // Fetch merch data when the component mounts
         dispatch(getMerch())
     }, [dispatch])
 
@@ -77,8 +80,7 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
             let priceFilter = merch
                 .map((obj) =>
                     ({ id: obj._id, merchType: obj.merchType, name: obj.name, image: obj.image, price: obj.price, description: obj.description }))
-                .sort((a, b) => a.price === b.price ? 0 : a.price < b.price ? 1 : -1)
-                .reverse()
+                .sort((a, b) => a.price > b.price ? 1 : a.price < b.price ? -1 : 0)
             if (priceFilter.length > 0) {
                 setMatchesList(priceFilter)
                 setMatches(true)
@@ -89,7 +91,7 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
             let priceOrder = merch
                 .map((obj) =>
                     ({ id: obj._id, merchType: obj.merchType, name: obj.name, image: obj.image, price: obj.price, description: obj.description }))
-                .sort((a, b) => a.price === b.price ? 0 : a.price < b.price ? 1 : -1)
+                .sort((a, b) => a.price < b.price ? 1 : a.price > b.price ? -1 : 0)
             if (priceOrder.length > 0) {
                 setMatchesList(priceOrder)
                 setMatches(true)
@@ -100,42 +102,25 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
             let alphaFilter = merch
                 .map((obj) =>
                     ({ id: obj._id, merchType: obj.merchType, name: obj.name, image: obj.image, price: obj.price, description: obj.description }))
-                .sort((a, b) => a.name === b.name ? 0 : a.name < b.name ? 1 : -1)
-                .reverse()
-            if (alphaFilter.length > 0) {
-                setMatchesList(alphaFilter)
+                .sort((a, b) => a.name.localeCompare(b.name))
+            setMatchesList(alphaFilter)
+            setMatches(true)
+        } else if (checkBoxS.checked === true || checkBoxM.checked === true || checkBoxL.checked === true) {
+            // Filter by all selected sizes
+            let selectedSizes = [];
+            if (checkBoxS.checked) selectedSizes.push('S');
+            if (checkBoxM.checked) selectedSizes.push('M');
+            if (checkBoxL.checked) selectedSizes.push('L');
+            let sizeList = merch.filter((item) =>
+                selectedSizes.map(s => s.toLowerCase()).includes(item.size.toLowerCase())
+            );
+            if (sizeList.length > 0) {
+                setMatchesList(sizeList)
                 setMatches(true)
             } else {
                 setMatches(false)
             }
-        } else if (checkBoxS.checked === true) {
-            let smallSizeList = merch.filter((item) =>
-                item.size.toLowerCase().includes(size.toLowerCase()))
-            if (smallSizeList.length > 0) {
-                setMatchesList(smallSizeList)
-                setMatches(true)
-            } else {
-                setMatches(false)
-            }
-        } else if (checkBoxM.checked === true) {
-            let medSizeList = merch.filter((item) =>
-                item.size.toLowerCase().includes(size.toLowerCase()))
-            if (medSizeList.length > 0) {
-                setMatchesList(medSizeList)
-                setMatches(true)
-            } else {
-                setMatches(false)
-            }
-        } else if (checkBoxL.checked === true) {
-            let largeSizeList = merch.filter((item) =>
-                item.size.toLowerCase().includes(size.toLowerCase()))
-            if (largeSizeList.length > 0) {
-                setMatchesList(largeSizeList)
-                setMatches(true)
-            } else {
-                setMatches(false)
-            }
-        } else {
+        } else if (type && type !== '') {
             let typeList = merch.filter((item) =>
                 item.merchType.toLowerCase().includes(type.toLowerCase()))
             if (typeList.length > 0) {
@@ -144,13 +129,26 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
             } else {
                 setMatches(false)
             }
+        } else {
+            setMatches(false)
         }
     }
 
     const reset = () => {
         setMatches(false)
         setSearch('')
-        window.location.reload(false)
+        setMatchesList([])
+        setSize('')
+        setType('')
+        // Optionally, uncheck all checkboxes and reset select input if needed
+        const checkboxes = ['checkboxS', 'checkboxM', 'checkboxL', 'checkboxAZ', 'lowToHigh', 'highToLow'];
+        checkboxes.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.checked = false;
+        });
+        // Reset select input to default option
+        const select = document.querySelector('.select-input');
+        if (select) select.selectedIndex = 0;
     }
 
     const addToCart = (id, price, name, img) => {
@@ -167,12 +165,11 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
         dispatch(createCart(addItem))
     }
 
+
     const enlargePhoto = (img) => {
         setImgSrc(img)
-        console.log(imgSrc, 'src')
         setFullView(true)
     }
-
 
     return (
         <>
@@ -222,51 +219,50 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
                                     <label htmlFor="checkboxL" className="label form-check-label">L</label>
                                 </div>
                             </div>
+                            <select className="filter-input select-input" onChange={(e) => setType(e.target.value)} defaultValue="">
+                                <option value="" disabled>Select..</option>
+                                {options.slice(1).map((option, index) => {
+                                    return (
+                                        <option key={index + 1} value={option}>
+                                            {option}
+                                        </option>
+                                    )
+                                })}
+                            </select>
+                        </div>
 
-                            <h5>Sort By</h5>
-                            <h6 className="alpha">Alphabetical</h6>
-                            <div className="display-flex">
-                                <div className="form-group form-check check-flex">
-                                    <input id="checkboxAZ" className="form-check-input" type='checkbox' value='A-Z'
-                                    />
-                                    <label htmlFor="checkboxAZ" className="label form-check-label">A-Z</label>
-                                </div>
+                        <h6 className="alpha">Price</h6>
+                        <div className="display-flex">
+                            <div className="form-group form-check check-flex">
+                                <input id="lowToHigh" className="form-check-input" type='checkbox' value='LowToHigh'
+                                />
+                                <label htmlFor="lowToHigh" className="label form-check-label">Low to High</label>
                             </div>
-
-                            <h6 className="alpha">Price</h6>
-                            <div className="display-flex">
-                                <div className="form-group form-check check-flex">
-                                    <input id="lowToHigh" className="form-check-input" type='checkbox' value='LowToHigh'
-                                    />
-                                    <label htmlFor="lowToHigh" className="label form-check-label">Low to High</label>
-                                </div>
-                                <div className="form-group form-check check-flex">
-                                    <input id="highToLow" className="form-check-input" type='checkbox' value='HighToLow'
-                                    />
-                                    <label htmlFor="highToLow" className="label form-check-label">High to Low</label>
-                                </div>
-                            </div>
-
-                            <h5>Type</h5>
-                            <div className="type-container my-3">
-                                <select className="filter-input select-input" onChange={(e) => setType(e.target.value)}>
-                                    {options.map((option, index) => {
-                                        return (
-                                            <option key={index}>
-                                                {option}
-                                            </option>
-                                        )
-                                    })}
-                                </select>
+                            <div className="form-group form-check check-flex">
+                                <input id="highToLow" className="form-check-input" type='checkbox' value='HighToLow'
+                                />
+                                <label htmlFor="highToLow" className="label form-check-label">High to Low</label>
                             </div>
                         </div>
+
+                        <h5>Type</h5>
+                        <select className="filter-input select-input" onChange={(e) => setType(e.target.value)}>
+                            {options.map((option, index) => {
+                                return (
+                                    <option key={index} value={option === 'Select..' ? '' : option}>
+                                        {option}
+                                    </option>
+                                )
+                            })}
+                        </select>
+
 
                         <div className="button-group">
                             <button className="filterBtn" onClick={filterChange}>Filter</button>
                             <button className="filterBtn" onClick={reset}>Reset</button>
                         </div>
 
-                    </nav>
+                    </nav >
                 )}
 
                 <div className="container mb-5">
@@ -279,7 +275,7 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
                                         <div className="h2">{item.name}</div>
                                         <p className="merch-price">${item.price}</p>
                                         <p className="merch-description">{item.description}</p>
-                                        <button className="addToCart">Add to Cart</button>
+                                        <button className="addToCart" onClick={() => addToCart(item.id || item._id, item.price, item.name, item.image)}>Add to Cart</button>
                                     </div>
                                 </div>
                             ))}

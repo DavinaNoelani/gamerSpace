@@ -11,7 +11,7 @@ const MerchForm = () => {
     const [price, setPrice] = useState('')
     const [ageRange, setAgeRange] = useState('')
     const [description, setDescription] = useState('')
-    const [image, setImage] = useState([])
+    // const [image, setImage] = useState([])
 
     const dispatch = useDispatch();
 
@@ -24,7 +24,7 @@ const MerchForm = () => {
             price: price,
             ageRange: ageRange,
             description: description,
-            image: image,
+            // image: image, // removed unused image field
         }
 
         dispatch(createMerch(newMerch))

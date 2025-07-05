@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react"
+import { useState } from "react"
 import GameForm from "./GameForm"
 import MerchForm from "./MerchForm"
 import GameList from "../EditGameList/GameList";
 import MerchList from '../EditMerchList/MerchList'
 import Header from "../Header";
+import './Admin.css'
 
 
 const Admin = () => {
 
     const [switchEdit, setSwitchEdit] = useState(false)
-    const [switchMerchEdit, setMerchEdit] = useState(false)
+    const [switchMerchEdit, setSwitchMerchEdit] = useState(false)
 
 
 
@@ -21,7 +22,7 @@ const Admin = () => {
     return (
         <>
             <Header />
-            
+
             <div className="container-fluid">
                 <div className="row media">
                     <div className="col">
@@ -45,7 +46,7 @@ const Admin = () => {
 
                         <div className="edit-row">
                             <h1 className="text-center edit-head"> Edit Merch </h1>
-                            <button className="btn edit-btn" onClick={() => setMerchEdit(!switchMerchEdit)}>&#9998;</button>
+                            <button className="btn edit-btn" onClick={() => setSwitchMerchEdit(!switchMerchEdit)}>&#9998;</button>
                         </div>
 
                         <div className="edit-side">
