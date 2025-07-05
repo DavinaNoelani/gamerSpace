@@ -184,7 +184,7 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
 
                 {hideButton && (
                     <div className="text-center">
-                        <button className="btn" onClick={showFilterHandle}>Search</button>
+                        <button className="btn shadow-light rounded-lg" onClick={showFilterHandle}>Search</button>
                     </div>
                 )}
 

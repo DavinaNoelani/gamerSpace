@@ -1,0 +1,50 @@
+/* test magnify */
+/* * {box-sizing: border-box;}
+
+.img-magnifier-container {
+  position: relative;
+}
+
+.img-magnifier-glass {
+  position: absolute;
+  border: 3px solid #000;
+  border-radius: 50%;
+  cursor: none;
+  width: 100px;
+  height: 100px;
+} */
+
+/* test overlay */
+/* .imgOverlay-container {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+} */
+
+/* .imgOverlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .3s ease;
+  background: rgba(0, 0, 0, 0.4);
+} */
+
+/* .imgOverlay-container:hover .imgOverlay {
+  opacity: 1;
+} */
+
+/* .icon {
+  color: white;
+  font-size: 100px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+} */

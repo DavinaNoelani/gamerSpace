@@ -79,6 +79,7 @@ export const verifyUser = createAsyncThunk(
     }
 )
 
+
 const userSlice = createSlice({
     name: 'user',
     initialState,

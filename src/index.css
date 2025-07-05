@@ -46,11 +46,6 @@ div {
   display: block;
 }
 
-/* div:hover {
-  background-color: whitesmoke;
-
-} */
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -94,8 +89,6 @@ code {
 
 #blueGreen {
   background: linear-gradient(to left, #99ff33 0%, #00ffff 100%);
-  /* color: #00ffff; */
-  /* color: #00e6e6; */
 }
 
 #red {
@@ -107,9 +100,7 @@ code {
 }
 
 #black {
-  /* background: linear-gradient(to bottom, #202020 0%, #303030 100%); */
   background: linear-gradient(to left, #777777 0%, #202020 100%);
-
   color: #ff4d4d;
 }
 
@@ -120,8 +111,54 @@ code {
 
 #pinkPurple {
   background: linear-gradient(to left, #ff0066 0%, #993399 100%);
-  /* color: #ff99cc; */
 }
+
+/* re-usable code */
+.card {
+  box-shadow: #999 0 6px;
+  box-shadow: #202020 0 1px 6px;
+}
+
+/* === SHADOWS === */
+.shadow {
+  box-shadow: #202020 0 1px 6px;
+}
+
+.shadow-light {
+  box-shadow: #999 0 6px;
+}
+
+.shadow-heavy {
+  box-shadow: #000 0 4px 10px;
+}
+
+/* === BORDER RADIUS === */
+.rounded-sm {
+  border-radius: 5px;
+}
+
+.rounded {
+  border-radius: 10px;
+}
+
+.rounded-lg {
+  border-radius: 20px;
+}
+
+/* === COMMON COLORS === */
+.bg-dark {
+  background-color: #202020;
+}
+
+.text-red {
+  color: red;
+}
+
+.text-light {
+  color: whitesmoke;
+}
+
+
 
 /* home */
 .browse-container {
@@ -253,16 +290,15 @@ code {
 }
 
 .btn {
-  align-self: center;
+  /* align-self: center;
   padding: 8px 10px;
-  border-radius: 20px;
-  color: red;
+  border-radius: 20px; */
   background-color: #202020;
-  box-shadow: #999 0 6px;
+  /* box-shadow: #999 0 6px;
   font-size: 1.3rem;
   border: none;
   font-weight: 600;
-  font-family: 'ocr a';
+  font-family: 'ocr a'; */
 }
 
 .btn:hover {
@@ -1793,7 +1829,7 @@ input:focus {
 }
 
 .padding-16 {
-  padding: 16px 0!important;
+  padding: 16px 0 !important;
 }
 
 .display-container {
@@ -2164,7 +2200,8 @@ input:focus {
   padding-bottom: 32px !important;
 }
 
-.tag, .badge {
+.tag,
+.badge {
   background-color: #000;
   color: #fff;
   display: inline-block;
@@ -2183,11 +2220,11 @@ input:focus {
 }
 
 .margin {
-  margin: 16px!important;
+  margin: 16px !important;
 }
 
 .margin-top {
-  margin-top: 16px!important;
+  margin-top: 16px !important;
 }
 
 .card-4 {
@@ -2276,15 +2313,15 @@ input:focus {
 }
 
 .left {
-  float: left!important;
+  float: left !important;
 }
 
 .margin-right {
-  margin-right: 16px!important;
+  margin-right: 16px !important;
 }
 
 .large {
-  font-size: 18px!important;
+  font-size: 18px !important;
 }
 
 .ul li {
@@ -2294,8 +2331,8 @@ input:focus {
 }
 
 .padding16 {
-  padding-top: 16px!important;
-  padding-bottom: 16px!important;
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
 }
 
 .hoverable li:hover {
@@ -2303,15 +2340,17 @@ input:focus {
 }
 
 li .padding16 {
-  text-align : -webkit-match-parent;
+  text-align: -webkit-match-parent;
 }
 
 .padding {
-  padding: 8px 16px!important;
+  padding: 8px 16px !important;
 }
 
 /* test zoom */
-* {box-sizing: border-box;}
+* {
+  box-sizing: border-box;
+}
 
 .img-zoom-container {
   position: relative;
@@ -2338,54 +2377,3 @@ li .padding16 {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 }
-
-/* test magnify */
-/* * {box-sizing: border-box;}
-
-.img-magnifier-container {
-  position: relative;
-}
-
-.img-magnifier-glass {
-  position: absolute;
-  border: 3px solid #000;
-  border-radius: 50%;
-  cursor: none;
-  width: 100px;
-  height: 100px;
-} */
-
-/* test overlay */
-/* .imgOverlay-container {
-  position: relative;
-  width: 100%;
-  max-width: 700px;
-} */
-
-/* .imgOverlay {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  opacity: 0;
-  transition: .3s ease;
-  background: rgba(0, 0, 0, 0.4);
-} */
-
-/* .imgOverlay-container:hover .imgOverlay {
-  opacity: 1;
-} */
-
-/* .icon {
-  color: white;
-  font-size: 100px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  text-align: center;
-} */
