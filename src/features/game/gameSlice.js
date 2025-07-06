@@ -47,11 +47,10 @@ export const editGame = createAsyncThunk(
     'games/edit',
     async (sentToRedux, thunkAPI) => {
         try {
-            console.log(sentToRedux)
             const response = await axios.put(`${API_URL}/edit-game/${sentToRedux.id}`,
                 { title: sentToRedux.title });
             await thunkAPI.dispatch(getGames())
-            return response.data
+            return  { id: sentToRedux.id, newTitle: sentToRedux.title }; // 👈 this is key
         } catch (error) {
             return thunkAPI.rejectWithValue('edit not working');
         }
@@ -138,12 +137,11 @@ const gameSlice = createSlice({
                 state.isLoading = true;
             })
             .addCase(editGame.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.isSuccess = true;
-                const index = state.games.findIndex((game) => game._id === action.payload._id)
-                // console.log(action.payload)
-                console.log('splice', state.games.splice(index, 1, action.payload))
-                state.games.splice(index, 1, action.payload);
+                const { id, newTitle } = action.payload;
+                const index = state.games.findIndex((game) => game._id === id);
+                if (index !== -1) {
+                    state.games[index].title = newTitle;
+                }
             })
             .addCase(editGame.rejected, (state, action) => {
                 state.isLoading = false;

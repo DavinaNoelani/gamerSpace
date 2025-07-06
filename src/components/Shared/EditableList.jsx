@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-const EditableList = ({ items, onDelete, onEdit, type }) => {
 
+const EditableList = ({ items, onDelete, onEdit, type, renderItem }) => {
 
     const [searchTerm, setSearchTerm] = useState('');
     const [sortType, setSortType] = useState('');
@@ -56,7 +56,7 @@ const EditableList = ({ items, onDelete, onEdit, type }) => {
                     </select>
                 </div>
 
-                {filteredItems.map((item) => (
+                {/* {filteredItems.map((item) => (
                     <div key={item._id} className="editable-item">
                         <div><strong>{type === "Game" ? "Title" : "Name"}:</strong> {item.title || item.name}</div>
                         <div><strong>Price:</strong> ${item.price}</div>
@@ -69,40 +69,13 @@ const EditableList = ({ items, onDelete, onEdit, type }) => {
                             <button className="btn" onClick={() => onDelete(item._id)}>🗑️ Delete</button>
                         </div>
                     </div>
-                ))}
-
-                {/* {items.map((item) => (
-                    <div key={item._id} className="editable-item">
-                        <div>
-                            <strong>{type === "Game" ? "Title" : "Name"}:</strong>
-                        </div>
-
-                        <div>
-                            <strong>Price:</strong> ${item.price}
-                        </div>
-
-                        <div>
-                            <strong>Description:</strong> {item.description}
-                        </div>
-
-                        {item.console && (
-                            <div>
-                                <strong>Console:</strong> {item.console}
-                            </div>
-                        )}
-
-                        {item.size && (
-                            <div>
-                                <strong>Size:</strong> {item.size}
-                            </div>
-                        )}
-
-                        <div className="button-group">
-                            <button className="btn" onClick={() => onEdit(item)}>✏️ Edit</button>
-                            <button className="btn" onClick={() => onDelete(item._id)}>🗑️ Delete</button>
-                        </div>
-                    </div>
                 ))} */}
+
+                {filteredItems.map((item) => (
+                    <div key={item._id}>
+                        {renderItem(item)}
+                    </div>
+                ))}
             </div>
         </>
     );

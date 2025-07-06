@@ -2,9 +2,11 @@ import { useState } from "react"
 import GameForm from "./GameForm"
 import MerchForm from "./MerchForm"
 import Header from "../Header";
+import Games from "../Shared/Games";
+import Merch from "../Shared/Merch";
 import EditableList from "../Shared/EditableList";
-import { deleteGame } from '../../features/game/gameSlice';
-import { deleteMerch } from '../../features/merch/merchSlice';
+import { deleteGame, editGame } from '../../features/game/gameSlice';
+import { deleteMerch, editMerch } from '../../features/merch/merchSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import './Admin.css'
 
@@ -44,15 +46,26 @@ const Admin = ({ items, onDelete, onEdit, type }) => {
                         </button>
                     </div>
 
-                    {showGameList && (
-                        <EditableList
-                            items={games}
-                            onDelete={(id) => dispatch(deleteGame(id))}
-                            onEdit={(item) => console.log('Edit Game:', item)} //for now
-                            type="Game"
-                        />
-                    )}
 
+                    <EditableList
+                        items={games}
+                        type="Game"
+                        onDelete={(id) => dispatch(deleteGame(id))}
+                        onEdit={(item) => console.log(item)} //for now
+                        renderItem={item => (
+                            <Games
+                                key={item._id}
+                                item={item._id}
+                                title={item.title}
+                                image={item.image}
+                                console={item.console}
+                                editGameHandle={(id, newTitle) =>
+                                    dispatch(editGame({ id, title: newTitle }))
+                                }
+                                deleteGameHandle={(id) => dispatch(deleteGame(id))}
+                            />
+                        )}
+                    />
                     <div className="list-toggle">
                         <h2>Edit Merch</h2>
                         <button className="btn" onClick={() => setShowMerchList(!showMerchList)}>
@@ -60,15 +73,25 @@ const Admin = ({ items, onDelete, onEdit, type }) => {
                         </button>
                     </div>
 
-                    {showMerchList && (
-                        <EditableList
-                            items={merch}
-                            onDelete={(id) => dispatch(deleteMerch(id))}
-                            onEdit={(item) => console.log('Edit Merch:', item)} //for now
-                            type="Merch"
-                        />
-                    )}
-
+                    <EditableList
+                        items={merch}
+                        type="Merch"
+                        onDelete={(id) => dispatch(deleteMerch(id))}
+                        onEdit={() => { }}
+                        renderItem={(item) => (
+                            <Merch
+                                key={item._id}
+                                id={item._id}
+                                name={item.name}
+                                image={item.image}
+                                merchType={item.merchType}
+                                editMerchHandle={(id, newName) =>
+                                    dispatch(editMerch({ id, name: newName }))
+                                }
+                                deleteMerchHandle={(id) => dispatch(deleteMerch(id))}
+                            />
+                        )}
+                    />
                 </div>
             </div>
         </>

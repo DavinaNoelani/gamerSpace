@@ -43,12 +43,14 @@ export const editMerch = createAsyncThunk(
     'merch/edit',
     async (sentToRedux, thunkAPI) => {
         try {
-            console.log(sentToRedux)
-            const response = await axios.put(`${API_URL}/edit-merch/${sentToRedux.id}`, { name: sentToRedux.name });
-            await thunkAPI.dispatch(getMerch())
-            return response.data
+            const response = await axios.put(`${API_URL}/edit-merch/${sentToRedux.id}`, {
+                name: sentToRedux.name
+            });
+
+            await thunkAPI.dispatch(getMerch()); // refresh list after edit
+            return { id: sentToRedux.id, newName: sentToRedux.name };
         } catch (error) {
-            return thunkAPI.rejectWithValue('edit not working');
+            return thunkAPI.rejectWithValue('merch edit failed');
         }
     }
 );
@@ -119,11 +121,11 @@ const merchSlice = createSlice({
                 state.isLoading = true;
             })
             .addCase(editMerch.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.isSuccess = true;
-                const index = state.merch.findIndex((merch) => merch._id === action.payload._id)
-                console.log(action.payload)
-                state.merch.splice(index, 1, action.payload);
+                const { id, newName } = action.payload;
+                const index = state.merch.findIndex((item) => item._id === id);
+                if (index !== -1) {
+                    state.merch[index].name = newName;
+                }
             })
             .addCase(editMerch.rejected, (state, action) => {
                 state.isLoading = false;
