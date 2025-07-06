@@ -3,7 +3,6 @@ import axios from 'axios'
 
 const API_URL = 'http://localhost:5000/api/merch';
 
-
 const initialState = {
     merch: [],
     isError: false,
@@ -26,18 +25,18 @@ export const getMerch = createAsyncThunk(
 )
 
 // create merch
-export const createMerch = createAsyncThunk(
-    'new-merch',
-    async (merchData, thunkAPI) => {
-        try {
-            const response = await axios.post(API_URL + "/new-merch", merchData);
-
-            return response.data
-        } catch (error) {
-            return thunkAPI.rejectWithValue('create not working')
-        }
+export const createMerch = createAsyncThunk('merch/create', async (merchData, thunkAPI) => {
+    try {
+        const response = await axios.post(`${API_URL}`, merchData, {
+            headers: {
+                'Content-Type': 'multipart/merch-data',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
-);
+});
 
 // edit merch
 export const editMerch = createAsyncThunk(
@@ -45,9 +44,8 @@ export const editMerch = createAsyncThunk(
     async (sentToRedux, thunkAPI) => {
         try {
             console.log(sentToRedux)
-            const response = await axios.put(API_URL + "/edit-merch/" + sentToRedux.id,
-                { name: sentToRedux.name });
-            getMerch()
+            const response = await axios.put(`${API_URL}/edit-merch/${sentToRedux.id}`, { name: sentToRedux.name });
+            await thunkAPI.dispatch(getMerch())
             return response.data
         } catch (error) {
             return thunkAPI.rejectWithValue('edit not working');
@@ -110,7 +108,7 @@ const merchSlice = createSlice({
                 state.isSuccess = true;
                 const index = state.merch.findIndex((merch) => merch._id === action.payload._id)
                 state.merch.splice(index, 1)
-           
+
             })
             .addCase(deleteMerch.rejected, (state, action) => {
                 state.isLoading = false;

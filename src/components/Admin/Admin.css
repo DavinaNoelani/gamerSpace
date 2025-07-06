@@ -1,0 +1,429 @@
+.form-label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    visibility: hidden;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.edit-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* admin grid */
+.admin-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.form-section, .edit-section {
+    flex: 1 1 45%;
+    background: #f8f8f8;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.section-header {
+    margin-top: 0;
+    color: #333;
+    font-weight: bold;
+}
+
+.list-toggle {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* EditableList */
+.editable-list {
+    margin-top: 1rem;
+}
+
+.editable-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 1rem;
+    transition: all 0.2s ease;
+}
+
+.editable-item:hover {
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
+.list-header {
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.button-group {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* containers */
+
+/* 
+.edit-container {
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    background-color: #202020;
+    padding: 1rem;
+    height: 100%;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    box-shadow: #202020 0 1px 6px;
+    background-color: #383838e7;
+    margin: auto;
+    color: white;
+    margin-bottom: 5vh;
+} */
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 600px;
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    box-shadow: #202020 0 1px 6px;
+    background-color: #383838e7;
+    margin: auto;
+}
+
+.formShadow {
+    box-shadow: -30px -15px 7px rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+}
+
+.image-preview {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.feedback-message {
+    color: #ff0000;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+/* edit */
+/* admin  */
+.col {
+    flex: 50%;
+    align-content: center;
+}
+
+.edit-head {
+    /* text-shadow: #444 -3.5px 3.5px; */
+    text-shadow: rgb(201 52 52) 0 1px 2px;
+
+}
+
+.edit-btn {
+    align-items: center;
+}
+
+.edit-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10vh;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    height: 10vh;
+}
+
+.edit-container {
+    text-align: center;
+    max-width: 500px;
+    /* width: 100%; */
+    background-color: #202020;
+    border-radius: 50px;
+    height: max-content;
+    margin: auto;
+    color: white;
+    margin-bottom: 5vh;
+}
+
+.editTitle {
+    text-shadow: #fff 0 1px 6px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.card-back {
+    max-width: 750px;
+    width: 100%;
+    max-height: 850px;
+    margin: 5vh auto;
+    box-shadow: #202020 0 1px 6px;
+    gap: 10px;
+    padding: 15px;
+    align-items: center;
+    background: linear-gradient(to bottom, #f5f5f5 0%, #a9a9a9 100%);
+    /* background: linear-gradient(to bottom right, #666666 0%, #999999 100%); */
+}
+
+.card-back:focus {
+    background: linear-gradient(to right, #ff0000 0%, #ff9966 100%);
+}
+
+
+
+/* games */
+.game-card {
+    max-height: 600px;
+    height: 100%;
+    margin: 2vh auto;
+    box-shadow: #202020 0 1px 6px;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 450px;
+    background: linear-gradient(to bottom, #f5f5f5 0%, #a9a9a9 100%);
+
+}
+
+/* merch */
+.merch-card {
+    max-height: 520px;
+    height: 100%;
+    position: relative;
+}
+
+.merch-img {
+    max-height: 260px;
+    height: 100%;
+}
+
+.merch-img:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.merch-price {
+    color: grey;
+    font-size: 2.5vh;
+    font-family: 'alef';
+}
+
+.merch-description {
+    font-family: 'alef';
+}
+
+.addToCart {
+    border: none;
+    outline: 0;
+    padding: 12px;
+    color: white;
+    background-color: #111;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 2.2vh;
+    font-family: 'alef';
+    position: absolute;
+    bottom: 0;
+}
+
+.button-div {
+    position: relative;
+    bottom: 0%;
+    width: 100%;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-around;
+}
+
+.new-card {
+    margin: 5vh auto;
+    box-shadow: #111 0 1px 6px;
+    padding: 1rem 15px;
+    background-color: #f2f2f2;
+    max-width: 450px;
+    width: 100%;
+    max-height: 720px;
+    height: 100%;
+}
+
+.top-card {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-header {
+    font-size: 5vh;
+    letter-spacing: 0.06em;
+    text-shadow: #ccc 0 1px 2px;
+    background-color: transparent;
+    border: none;
+    text-transform: uppercase;
+}
+
+.title {
+    display: flex;
+}
+
+.title-head {
+    color: grey;
+    text-shadow: #222 1px 1px 1px;
+    background: linear-gradient(to bottom left, #ffffff 0%, #777777 100%);
+    padding: 1px 10px;
+    border-radius: 40px;
+    text-transform: uppercase;
+    font-family: 'berlin sans fb';
+    align-self: center;
+    letter-spacing: 0.04em;
+}
+
+.console-head {
+    border-radius: 10px;
+    border-width: 4px;
+    border-style: ridge;
+    box-shadow: #222 0 1px 6px;
+    font-family: 'alef';
+    background-color: maroon;
+    padding: 5px 8px;
+    letter-spacing: 0.1em;
+    width: 130px;
+    color: white;
+    align-self: center;
+    font-size: 1.5rem;
+}
+
+.console {
+    display: flex;
+}
+
+.console-span {
+    color: maroon;
+    font-family: 'alef';
+    text-transform: capitalize;
+    font-weight: 900;
+    font-size: 1.7rem;
+}
+
+#price-icon {
+    font-size: 3vh;
+    align-self: left;
+}
+
+.price-container {
+    display: flex;
+    justify-content: space-around;
+    /* align-items: center; */
+}
+
+.price-text {
+    color: #444;
+    align-items: center;
+}
+
+.font-on-display {
+    font-family: 'alef';
+    font-size: 2.5vh;
+    padding: 0 1rem;
+    align-self: center;
+    text-transform: capitalize;
+}
+
+.game-title {
+    font-size: 2.8vh;
+    margin: 2vh 0;
+    font-weight: bold;
+}
+
+.button-wrap {
+    text-align: center;
+    display: flex;
+    /* max-width: 400px; */
+    /* width: 100%; */
+    justify-content: space-between;
+}
+
+.grid-item6 {
+    justify-content: center;
+    margin: auto;
+    padding: 2vh 0;
+}
+
+.description-container {
+    display: flex;
+}
+
+.display-flex {
+    display: flex;
+    justify-content: space-around;
+}
+
+.select-input {
+    width: 95%;
+    border-radius: 10px;
+}
+
+.fullView-container {
+    padding-top: 10vh;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.6);
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 500;
+}
+
+.fullview-background {
+    background: rgba(0, 0, 0, 0.6);
+    max-width: 1400px;
+    margin: auto;
+    padding: 10px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.imageFull {
+    max-height: 600px;
+    width: 100%;
+    max-width: 700px;
+    /* margin: 5vh auto 0 auto; */
+    display: block;
+    border-radius: 20px;
+    justify-items: center;
+}

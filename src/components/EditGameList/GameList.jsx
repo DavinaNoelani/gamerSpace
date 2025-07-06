@@ -16,7 +16,12 @@ const GameList = () => {
 
     }, [dispatch, isError])
 
-    const [gamez, setGamez] = useState(games)
+    const [gamez, setGamez] = useState(games);
+
+    useEffect(() => {
+        setGamez(games);
+    }, [games]);
+
     console.log(gamez, 'gamez')
 
     const deleteGameHandle = (id) => {
@@ -67,13 +72,19 @@ const GameList = () => {
 
     return (
         <>
-            <div className="gameapp stack-large">
+            <div className=" form-container formShadow">
+                <div className="form">
 
-                <h2 id="list-heading" className="edit-head">{headingText}</h2>
+                    <h2 id="list-heading" className=" card-header edit-head">
+                        {headingText}
+                    </h2>
 
-                <ul className="stack-large" aria-labelledby="list-heading">
-                    {gameList}
-                </ul>
+                    <ul aria-labelledby="list-heading">
+                        {gameList}
+                    </ul>
+
+
+                </div>
             </div>
         </>
     )

@@ -1,44 +1,58 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import { createGame } from '../../features/game/gameSlice';
+import './Admin.css';
 
+// This component is used to add a new game to the database
+// It includes a form with fields for title, console, price, rating, description, and an image upload for the game cover.
+// The form data is sent to the Redux store using the createGame action, which handles the API request to create the game.  
 
 
 const GameForm = () => {
-
-
-
-    const [console, setConsole] = useState('')
+    // useState hooks to manage form state
+    // These hooks are used to manage the state of the form fields and feedback messages.
+    // State variables for game form
+    // These variables will hold the input values for the form fields.  
     const [title, setTitle] = useState('')
+    const [console, setConsole] = useState('')
     const [price, setPrice] = useState('')
     const [rating, setRating] = useState('')
     const [description, setDescription] = useState('')
-    const [gameImg, setGameImg] = useState('')
-
-    useEffect(() => {
-        return () => {
-            if (gameImg) {
-                URL.revokeObjectURL(gameImg);
-            }
-        };
-    }, [gameImg]);
-
-
+    const [gameImg, setGameImg] = useState(null);
+    const [preview, setPreview] = useState(null);
+    const [feedback, setFeedback] = useState('');
 
     const dispatch = useDispatch();
 
+    // This function is called when the form is submitted. It validates the form fields and dispatches the createGame action to add the new game to the database.
+    // It also resets the form fields and provides feedback to the user.        
+    // This function handles the form submission for adding a new game.
     const addGameHandle = (e) => {
         e.preventDefault();
+        // Validate form fields
+        if (!console || !title || !price || !rating || !description || !gameImg) {
+            setFeedback('Please fill in all fields.');
+            return;
+        }
+        // Create a newGame object to handle file uploads
+        const newGame = {
+            title,
+            console,
+            price,
+            rating,
+            description,
+            gameImg: preview // fallback, or handle uploading image differently later
+        };
+        // If you want to handle the image upload separately, you can do so here    
+        if (gameImg) {
+            newGame.gameImg = gameImg; // Use the file directly
+        } else {
+            setFeedback('Please upload an image for the game.');
+            return;
+        }
 
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('console', console);
-        formData.append('price', price);
-        formData.append('rating', rating);
-        formData.append('description', description);
-        formData.append('gameImg', gameImg); // raw file
-
-        dispatch(createGame(formData)); // You’ll handle this in Redux
+        dispatch(createGame(newGame)); // You’ll handle this in Redux
+        setFeedback('Game added successfully! ✅');
 
         // Reset form fields
         setTitle('');
@@ -46,21 +60,26 @@ const GameForm = () => {
         setPrice('');
         setRating('');
         setDescription('');
-        setGameImg(null);
-};
+        setGameImg('');
+        setPreview(null);
 
+        setTimeout(() => setFeedback(''), 3000)
+        // Clear feedback after 3 seconds
+    };
 
     return (
         <>
-            <div className="form-container">
+            <div className=" form-container formShadow">
 
-                <form className="form" method="post">
+                <form className="form" onSubmit={addGameHandle}>
 
-                    <h1 className="card-header edit-head">&#10010; Game</h1>
+                    <h1 className="card-header edit-head">
+                        Add 
+                        Game
+                        &#10010; 
+                    </h1>
 
-                    <label htmlFor="title" className="inputLabels">
-
-                    </label>
+                    <label htmlFor="title" className='form-label'>Title</label>
                     <input
                         onChange={(e) => setTitle(e.target.value)}
                         type='text'
@@ -68,12 +87,10 @@ const GameForm = () => {
                         name="title"
                         value={title}
                         className='form-input'
-                        placeholder="Name of Game"
+                        placeholder="Title .."
                     />
 
-                    <label htmlFor="console" className="inputLabels">
-
-                    </label>
+                    <label htmlFor="console" className='form-label'>Console</label>
                     <input
                         onChange={(e) => setConsole(e.target.value)}
                         type='text'
@@ -81,12 +98,10 @@ const GameForm = () => {
                         name="console"
                         value={console}
                         className='form-input'
-                        placeholder="Setting name of console (e.g. Nintendo Switch, Wii U, etc.)"
+                        placeholder="Console (e.g. Nintendo Switch, Wii U, etc.)"
                     />
 
-                    <label htmlFor="price" className="inputLabels">
-
-                    </label>
+                    <label htmlFor="price" className='form-label'>Price</label>
                     <input
                         onChange={(e) => setPrice(e.target.value)}
                         type='text'
@@ -97,9 +112,7 @@ const GameForm = () => {
                         placeholder="Price"
                     />
 
-                    <label htmlFor="rating" className="inputLabels">
-
-                    </label>
+                    <label htmlFor="rating" className='form-label'>Rating</label>
                     <input
                         onChange={(e) => setRating(e.target.value)}
                         type='text'
@@ -110,9 +123,7 @@ const GameForm = () => {
                         placeholder="Rating"
                     />
 
-                    <label htmlFor="description" className="inputLabels">
-
-                    </label>
+                    <label htmlFor="description" className='form-label'>Description</label>
                     <textarea
                         onChange={(e) => setDescription(e.target.value)}
                         type='text'
@@ -120,33 +131,43 @@ const GameForm = () => {
                         name="description"
                         value={description}
                         className='form-input'
-                        placeholder="description"
+                        placeholder="Description"
                     />
 
-                    <label htmlFor="gameImg" className="inputLabels">
-
-                    </label>                  
-
+                    <label htmlFor="gameImg" className='form-label'>Game Image</label>
                     <input
                         type="file"
                         id="gameImg"
                         className="form-input"
                         name="gameImg"
                         accept="image/*"
-                        onChange={(e) => setGameImg(e.target.files[0])}
+                        onChange={(e) => {
+                            const file = e.target.files[0];
+                            if (file) {
+                                setGameImg(file);
+                                setPreview(URL.createObjectURL(file)); // Set the preview to the file for display
+                            }
+                        }}
                     />
 
-                    {gameImg && (
-                        <img src={URL.createObjectURL(gameImg)} alt="Preview" width="150" />
+                    {preview && (
+                        <div className="image-preview">
+                            <p>Image Preview:</p>
+                            {/* Display the preview of the uploaded image */}
+                            <img src={preview} alt="Game Image Preview" style={{ maxWidth: "100%", height: 'auto', marginTop: '10px' }} />
+                        </div>
                     )}
 
+                    {feedback &&
+                        <div className="feedback-message">
+                            {feedback}
+                        </div>}
 
-                    <button onClick={(e) => addGameHandle(e)} className='form-btn'>
+                    <button type="submit" className='form-btn'>
                         &#128190;
                     </button>
                 </form>
             </div>
-
         </>
     )
 }

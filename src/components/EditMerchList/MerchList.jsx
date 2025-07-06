@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Merch from "./Merch";
 import { getMerch, deleteMerch, editMerch } from "../../features/merch/merchSlice";
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,7 +7,6 @@ const MerchList = () => {
 
     const dispatch = useDispatch();
     const { merch, isError } = useSelector((state) => state.merch);
-    console.log(merch, 'merch')
 
     useEffect(() => {
         if (isError) {
@@ -18,7 +17,9 @@ const MerchList = () => {
     }, [dispatch, isError])
 
     const [merchandise, setMerch] = useState(merch)
-    console.log(merchandise, 'merchandise')
+    useEffect(() => {
+        setMerch(merch);
+    }, [merch]);
 
     const deleteMerchHandle = (id) => {
         const remainingMerch = merch.filter((m) => id !== m._id)

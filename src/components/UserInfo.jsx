@@ -5,9 +5,10 @@ import { createUser } from "../features/user/userSlice";
 const UserInfo = ({ userInfo, setUserInfo, setOpenSave }) => {
 
     const dispatch = useDispatch();
-
-
-
+    const [feedback, setFeedback] = useState('');
+    const [preview, setPreview] = useState(null);
+    // State variables for user registration form
+    // These variables will hold the input values for the form fields.
     const [firstname, setFirstname] = useState('')
     const [lastname, setLastname] = useState('')
     const [username, setUsername] = useState('')
@@ -41,6 +42,10 @@ const UserInfo = ({ userInfo, setUserInfo, setOpenSave }) => {
         let capital = document.getElementById("capital");
         let number = document.getElementById("number");
         let length = document.getElementById("length");
+        // ⚠️ You're directly modifying the DOM (e.g., document.getElementById(...)). 
+        // It’s better to use useRef or controlled state when possible in React.
+        // Instead of multiple setState calls after submission, you could reset the form with a single object state or use a ref to reset the form.
+        // Consider storing the password validation rules and statuses in React state for clarity and reactivity.
 
         // When the user clicks on the password field, show the message box
         myInput.onfocus = function () {

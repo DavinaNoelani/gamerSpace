@@ -27,16 +27,19 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
     const [fullView, setFullView] = useState(false)
     const cartItems = useSelector((state) => state.cart.cartItems)
 
-
     useEffect(() => {
-        window.scrollTo(0, 0)
-
-        if (isError) {
+        if (isError) {      
             console.log('error');
         }
-        dispatch(getGames());
+        dispatch(getGames());   
+    }, [dispatch, isError]);
 
-    }, [dispatch, isError])
+    useEffect(() => {
+        return () => {
+            dispatch(reset());
+        };
+    }, [dispatch]);
+    
 
     const options = ['Select..', 'Wii', 'GameCube', 'Switch', '2DS', '3DS', 'SNES', 'NES']
 
@@ -56,7 +59,7 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
             newComments: newMessageArray,
             id: id
         }
-        console.log(sendToRedux, ' sent')
+ 
 
         dispatch(addComment(sendToRedux))
         setMessage('')
@@ -174,6 +177,9 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
         setImgSrc(img)
         console.log(imgSrc, 'src')
         setFullView(true)
+        // this handles the full view of the image
+        document.body.style.overflow = 'hidden';
+        
     }
 
     return (
