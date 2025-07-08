@@ -2,11 +2,11 @@ import { useState } from "react"
 import GameForm from "./GameForm"
 import MerchForm from "./MerchForm"
 import Header from "../Header";
-import Games from "../Shared/Games";
-import Merch from "../Shared/Merch";
-import EditableList from "../Shared/EditableList";
-import { deleteGame, editGame } from '../../features/game/gameSlice';
-import { deleteMerch, editMerch } from '../../features/merch/merchSlice';
+import Games from "../common/Games";
+import Merch from "../common/Merch";
+import EditableList from "../common/EditableList";
+import { deleteGame, editGame } from '../../redux/game/gameSlice';
+import { deleteMerch, editMerch } from '../../redux/merch/merchSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import './Admin.css'
 

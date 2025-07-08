@@ -134,6 +134,6 @@ const merchSlice = createSlice({
     },
 });
 
-console.log(merchSlice)
+// console.log(merchSlice)
 export default merchSlice.reducer;
 export const { reset } = merchSlice.actions;

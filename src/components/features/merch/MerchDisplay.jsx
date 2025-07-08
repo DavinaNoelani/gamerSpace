@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart } from "../features/cart/cartSlice";
-import { getMerch } from '../features/merch/merchSlice';
+import { addToCart } from "../../../redux/cart/cartSlice";
+import { getMerch } from '../../../redux/merch/merchSlice';
 import hearts from '../images/hearts.png'
-import Header from "./Header";
-import Zoom from "./Zoom";
+import Header from "../../layout/Header";
+import Zoom from "../../Zoom";
 
 
 

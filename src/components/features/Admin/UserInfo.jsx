@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
-import { createUser } from "../features/user/userSlice";
+import { createUser } from "../../../redux/user/userSlice";
 
 const UserInfo = ({ userInfo, setUserInfo, setOpenSave }) => {
 

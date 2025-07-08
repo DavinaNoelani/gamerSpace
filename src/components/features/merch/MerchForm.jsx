@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
-import { createMerch } from '../../features/merch/merchSlice';
+import { createMerch } from '../../../redux/merch/merchSlice';
 
 
 const MerchForm = () => {

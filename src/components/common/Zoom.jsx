@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import bowserCart from '../images/bowserOrnament.png';
-import { imageZoom, magnify } from "../constants/functions";
+import { imageZoom, magnify } from "../../constants/functions";
 
 const Zoom = ({ image }) => {
 

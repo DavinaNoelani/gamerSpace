@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
-import { createGame } from '../../features/game/gameSlice';
+import { createGame } from '../../redux/game/gameSlice';
 import './Admin.css';
 
 // This component is used to add a new game to the database
