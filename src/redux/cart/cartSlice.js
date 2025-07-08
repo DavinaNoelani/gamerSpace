@@ -1,9 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+// This function will be called when the thunk is dispatched
+// It receives the thunkAPI as an argument, which contains methods like dispatch and getState
+
+
+const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:5000';
+axios.defaults.baseURL = BASE_URL;
+// If you need to set headers or other axios configurations, you can do it here
+// For example, if you need to set a token for authentication, you can do it like this:
+// axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;  
+// If you need to set a timeout for requests, you can do it like this:
+// axios.defaults.timeout = 10000; // 10 seconds
+// If you need to set any other axios configurations, you can do it here
+// For example, if you need to set a base URL for all requests, you can do it like this:
+// axios.defaults.baseURL = 'https://api.example.com'; // Replace with your API base URL
+// If you need to set any other axios configurations, you can do it here
+
+const token = localStorage.getItem('token');
+if (token) {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+} else {
+  delete axios.defaults.headers.common['Authorization'];
+}
 
 export const syncCartWithServer = createAsyncThunk(
   'cart/sync',
+
+
   async (cartItems, thunkAPI) => {
     try {
       const userId = thunkAPI.getState().auth.user._id;

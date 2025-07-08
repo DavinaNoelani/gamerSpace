@@ -1,5 +1,5 @@
 import React from "react";
-import hearts from '../images/hearts.png'
+import hearts from '../../assets/images/hearts.png'
 
 
 const Footer = () => {

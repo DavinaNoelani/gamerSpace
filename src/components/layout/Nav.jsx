@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
-import pokeball from '../images/pokeball.png'
-import UserInfo from "../UserInfo";
-import hearts from '../images/hearts.png'
-import Cart from "../Cart/Cart";
-import Login from "../Login";
+import UserInfo from "../features/admin/UserInfo.jsx";
+import Cart from "../cart/Cart";
+import Login from "../features/admin/Login.jsx";
+import pokeball from '../../assets/images/pokeball.png'
+import hearts from '../../assets/images/hearts.png'
+
 
 const Nav = ({ setTheme,
     openSave, setOpenSave,

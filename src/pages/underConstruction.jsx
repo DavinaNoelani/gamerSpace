@@ -1,5 +1,5 @@
 import React from "react";
-import toad from '../images/toad.png'
+import toad from '../assets/images/toad.png'
 
 const Construction = () => {
     return (

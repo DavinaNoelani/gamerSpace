@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Construction from "./underConstruction";
-import Header from "./Header";
-import Login from "./Login";
+import Header from "../components/layout/Header.jsx";
+import Login from "../components/features/admin/Login.jsx";
 
 
 

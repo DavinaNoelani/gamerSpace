@@ -1,9 +1,9 @@
 import React from "react";
-import Header from "./Header";
-import ganon from '../images/ganonInTheWoods.jpg'
-import zelda from '../images/zeldaBridge.jpg'
-import zelda2 from '../images/zelda2.png'
-import foxMcloud from '../images/Fox_Mccloud_star_fox.png'
+// import Header from "../components/layout/Header.jsx";
+import ganon from '../assets/images/ganonInTheWoods.jpg'
+import zelda from '../assets/images/zeldaBridge.jpg'
+import zelda2 from '../assets/images/zelda2.png'
+import foxMcloud from '../assets/images/Fox_Mccloud_star_fox.png'
 
 
 const Blog = () => {

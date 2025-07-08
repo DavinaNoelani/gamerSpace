@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { getGames, reset, addComment } from '../../../redux/game/gameSlice';
-import avatar from '../images/girl_mountain.jpg';
 import { dateConversion } from "../../../constants/functions";
-import Header from "./Header";
 import { addToCart, syncCartWithServer } from "../../../redux/cart/cartSlice";
-import hearts from '../images/hearts.png';
+import Header from "../../layout/Header.jsx";
+import hearts from '../../../assets/images/hearts.png';
+import avatar from '../../../assets/images/girl_mountain.jpg';
 
 
 

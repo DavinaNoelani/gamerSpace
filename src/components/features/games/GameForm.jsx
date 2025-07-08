@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
-import { createGame } from '../../redux/game/gameSlice';
-import './Admin.css';
+import { createGame } from '../../../redux/game/gameSlice.js';
+import '../admin/Admin.css';
 
 // This component is used to add a new game to the database
 // It includes a form with fields for title, console, price, rating, description, and an image upload for the game cover.

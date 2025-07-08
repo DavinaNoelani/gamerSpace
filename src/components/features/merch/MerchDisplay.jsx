@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from "../../../redux/cart/cartSlice";
 import { getMerch } from '../../../redux/merch/merchSlice';
-import hearts from '../images/hearts.png'
+import hearts from '../../../assets/images/hearts.png'
 import Header from "../../layout/Header";
-import Zoom from "../../Zoom";
+import Zoom from "../../common/Zoom";
 
 
 

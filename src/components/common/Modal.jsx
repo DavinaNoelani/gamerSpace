@@ -1,9 +1,9 @@
 import React from 'react';
-import { clearCart } from '../features/cart/cartSlice';
-import { closeModal } from '../features/modal/modalSlice';
+import { clearCart } from '../../redux/cart/cartSlice';
+import { closeModal } from '../../redux/modal/modalSlice';
 import { useDispatch } from 'react-redux';
 
-const Modal = ({setItemCount, setRibbon}) => {
+const Modal = ({ setItemCount, setRibbon }) => {
 
     const dispatch = useDispatch()
 
@@ -25,9 +25,9 @@ const Modal = ({setItemCount, setRibbon}) => {
                         confirm
                     </button>
                     <button type='button' className='btn clear-btn'
-                    onClick={() => {
-                        dispatch(closeModal())
-                    }}
+                        onClick={() => {
+                            dispatch(closeModal())
+                        }}
                     >
                         cancel
                     </button>

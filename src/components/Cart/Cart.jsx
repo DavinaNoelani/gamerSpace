@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { openModal } from "../../features/modal/modalSlice";
-import CartItem from "./CartItem";
+import { openModal } from "../../redux/modal/modalSlice";
+import CartItem from "./CartItem.jsx";
 
 const Cart = ({ setOpenCart, idForMerch, itemCount, setItemCount, ribbon, setRibbon }) => {
 
@@ -37,7 +37,7 @@ const Cart = ({ setOpenCart, idForMerch, itemCount, setItemCount, ribbon, setRib
                         <h2>your bag</h2>
                     </header>
 
-                    {/* <div>
+                    <div>
                         {cartItems.map((item) => {
                             return <CartItem
                                 key={item.id}
@@ -47,7 +47,9 @@ const Cart = ({ setOpenCart, idForMerch, itemCount, setItemCount, ribbon, setRib
                                 img={item.image}
                                 amount={item.amount}/>;
                         })}
-                    </div> */}
+                    </div>
+
+
                     <CartItem
                         id={idForMerch}
                         itemCount={itemCount}

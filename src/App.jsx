@@ -1,19 +1,19 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React from 'react';
 import { useEffect, useState } from 'react';
-import Home from './components/Home';
-import Nav from './components/Nav';
-import Admin from './components/Admin/Admin';
-import UserInfo from './components/UserInfo';
-import GameDisplay from './components/GameDisplay';
-import MerchDisplay from './components/MerchDisplay';
-import Footer from './components/Footer';
-import SideNav from './components/SideNav';
-import Modal from './components/Modal.jsx';
-import Blog from './components/Blog.jsx';
-import { calculateTotals } from './features/cart/cartSlice';
+import Home from './pages/Home';
+import Nav from './components/layout/Nav';
+import Admin from './components/features/admin/Admin.jsx';
+import UserInfo from './components/features/admin/UserInfo.jsx';
+import GameDisplay from './components/features/games/GameDisplay.jsx';
+import MerchDisplay from './components/features/merch/MerchDisplay.jsx';
+import Footer from './components/layout/Footer.jsx';
+import SideNav from './components/layout/SideNav.jsx';
+import Modal from './components/common/Modal.jsx';
+import Blog from './pages/Blog.jsx';
+import { calculateTotals } from './redux/cart/cartSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import Zoom from './components/Zoom';
+import Zoom from './components/common/Zoom.jsx';
 
 
 
