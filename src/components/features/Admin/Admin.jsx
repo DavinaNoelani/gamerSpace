@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './Admin.css'
 
 
-const Admin = ({ items, onDelete, onEdit, type }) => {
+const Admin = ({ }) => {
 
     const [showGameList, setShowGameList] = useState(false);
     const [showMerchList, setShowMerchList] = useState(false);

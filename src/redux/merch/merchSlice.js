@@ -16,7 +16,6 @@ export const getMerch = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await axios.get(API_URL);
-
             return response.data
         } catch (error) {
             return thunkAPI.rejectWithValue('get not working');
@@ -38,22 +37,41 @@ export const createMerch = createAsyncThunk('merch/create', async (merchData, th
     }
 });
 
+// This function is used to edit an existing merch item.
+// It sends a PUT request to the server with the merch ID and the new name.
+// await axios.put(`${API_URL}/edit-merch/${merchId.id}`, {...})
 // edit merch
 export const editMerch = createAsyncThunk(
     'merch/edit',
-    async (sentToRedux, thunkAPI) => {
+    async (merchId, thunkAPI) => {
         try {
-            const response = await axios.put(`${API_URL}/edit-merch/${sentToRedux.id}`, {
-                name: sentToRedux.name
+            const response = await axios.put(`${API_URL}/edit-merch/${merchId}`,
+                // send all the merch data to the server
+                // this is the data that was sent to the redux store
+                {
+                    merchType: merchId.merchType,
+                    name: merchId.name,
+                    size: merchId.size,
+                    ageRange: merchId.ageRange,
+                    description: merchId.description,
+                    price: merchId.price,
+                    merchImg: merchId.merchImg, // base64                  
+                    rating: merchId.rating,
+                    stock: merchId.stock,
+                    sold: merchId.sold,
+                    reviews: merchId.reviews,
+                    likes: merchId.likes,
+                }, {
             });
-
             await thunkAPI.dispatch(getMerch()); // refresh list after edit
-            return { id: sentToRedux.id, newName: sentToRedux.name };
+            return { id: merchId.id, newName: merchId.name }; // 👈 this is key
         } catch (error) {
             return thunkAPI.rejectWithValue('merch edit failed');
         }
     }
 );
+
+
 
 
 // delete merch

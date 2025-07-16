@@ -41,7 +41,7 @@ export const createGame = createAsyncThunk('game/create', async (formData, thunk
     }
 });
 
-// await axios.put(`${API_URL}/edit-merch/${sentToRedux.id}`, {...})
+
 // edit game
 export const editGame = createAsyncThunk(
     'games/edit',
