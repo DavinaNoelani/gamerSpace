@@ -29,10 +29,10 @@ const Admin = ({ }) => {
 
                 <div className="admin-grid">
                     {/* left-side: forms */}
-                    <h2 className="section-header">Add New Game</h2>
+                    {/* <h2 className="section-header">Add New Game</h2> */}
                     <GameForm />
 
-                    <h2 className="section-header">Add New Merch</h2>
+                    {/* <h2 className="section-header">Add New Merch</h2> */}
                     <MerchForm />
                 </div>
 

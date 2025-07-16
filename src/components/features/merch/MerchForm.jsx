@@ -13,13 +13,15 @@ const MerchForm = () => {
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
     const [feedback, setFeedback] = useState('');
+    const [rating, setRating] = useState(0); // Assuming you want to handle rating as well
+    const [stock, setStock] = useState(0); // Default stock, can be adjusted later
 
     const dispatch = useDispatch();
 
     const addMerchHandle = (e) => {
         e.preventDefault();
 
-        if (!merchType || !name || !size || !price || !ageRange || !description || !image) {
+        if (!merchType || !name || !size || !price || !ageRange || !description || !image || rating <= 0) {
             setFeedback('⚠️ Please fill in all fields.');
             return;
         }
@@ -28,10 +30,12 @@ const MerchForm = () => {
             merchType,
             name,
             size,
-            price,
             ageRange,
             description,
-            image: preview // If file upload is implemented, send `image` instead
+            price,
+            image: preview, // If file upload is implemented, send `image` instead
+            rating, // Assuming you want to handle rating as well
+            stock: 0, // Default stock, can be adjusted later
         }
 
         dispatch(createMerch(newMerch))
@@ -41,11 +45,13 @@ const MerchForm = () => {
         setMerchType('')
         setName('')
         setSize('')
-        setPrice('')
         setAgeRange('')
         setDescription('')
+        setPrice('')
         setImage(null)
         setPreview(null)
+        setRating(0)
+        setStock(0); // Reset stock to default
 
         setTimeout(() => setFeedback(''), 3000);
 
@@ -98,19 +104,6 @@ const MerchForm = () => {
                         placeholder="Product Size"
                     />
 
-                    <label htmlFor="merchPrice" className='form-label'>
-                        Price
-                    </label>
-
-                    <input
-                        onChange={(e) => setPrice(e.target.value)}
-                        type='text'
-                        id="merchPrice"
-                        name="price"
-                        value={price}
-                        className='form-input'
-                        placeholder="Price"
-                    />
 
                     <label htmlFor="ageRange" className='form-label'>
                         Age
@@ -138,6 +131,21 @@ const MerchForm = () => {
                         placeholder="description"
                     />
 
+                    <label htmlFor="merchPrice" className='form-label'>
+                        Price
+                    </label>
+
+                    <input
+                        onChange={(e) => setPrice(e.target.value)}
+                        type='text'
+                        id="merchPrice"
+                        name="price"
+                        value={price}
+                        className='form-input'
+                        placeholder="Price"
+                    />
+
+
                     {preview && (
                         <div className="preview-container">
                             <p>Preview:</p>
@@ -146,6 +154,41 @@ const MerchForm = () => {
                     )}
 
                     {feedback && <div className="feedback-message">{feedback}</div>}
+                    <label htmlFor="merchImg" className='form-label'>Merch Image</label>
+                    <input
+                        onChange={(e) => setImage(e.target.files[0])}
+                        type='file'
+                        id="merchImg"
+                        name="merchImg"
+                        className='form-input'
+                    />
+                    <div className="image-preview">
+                        {image && <img src={URL.createObjectURL(image)} alt="Image Preview" />}
+                    </div>
+                    <label htmlFor="rating" className='form-label'>Rating</label>
+                    <input
+                        onChange={(e) => setRating(e.target.value)}
+                        type='number'
+                        id="rating"
+                        name="rating"
+                        value={rating}
+                        className='form-input'
+                        placeholder="Rating (1-5)"
+                        min="1"
+                        max="5"
+                    />
+                    <label htmlFor="stock" className='form-label'>Stock</label>
+                    <input
+                        onChange={(e) => setStock(i => i < e.target.value ? e.target.value : i++)}
+                        type='number'
+                        id="stock"
+                        name="stock"
+                        value={stock}
+                        className='form-input'
+                        placeholder="Stock Quantity"
+                        min="0"
+
+                    />
 
                     <button type="submit" className="form-btn">
                         &#128190;
