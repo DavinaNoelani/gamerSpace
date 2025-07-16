@@ -1,15 +1,14 @@
 import React from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { openModal } from "../../redux/modal/modalSlice";
 import CartItem from "./CartItem.jsx";
 
-const Cart = ({ setOpenCart, idForMerch, itemCount, setItemCount, ribbon, setRibbon }) => {
+const Cart = ({ setOpenCart, setItemCount, itemCount, ribbon, setRibbon, item, amount, total }) => {
 
     const dispatch = useDispatch();
-    const { cartItems, total, amount } = useSelector((state) => state.cart)
-    console.log(cartItems, 'cartItems')
 
 
+    // If the cart is empty, return an empty cart message
     if (amount < 1) {
         return (
             <div className="cart-modal">
@@ -25,10 +24,10 @@ const Cart = ({ setOpenCart, idForMerch, itemCount, setItemCount, ribbon, setRib
         )
     }
 
-
     return (
 
         <>
+            
             <div className="cart-modal">
                 <span className="close-cart" onClick={() => setOpenCart(false)}>&times;</span>
                 <section className="cart cartDisplay">
@@ -38,25 +37,15 @@ const Cart = ({ setOpenCart, idForMerch, itemCount, setItemCount, ribbon, setRib
                     </header>
 
                     <div>
-                        {cartItems.map((item) => {
-                            return <CartItem
-                                key={item.id}
-                                id={item._id}
-                                title={item.title}
-                                price={item.price}
-                                img={item.image}
-                                amount={item.amount}/>;
-                        })}
+                        <CartItem
+                            key={item.id}
+                            item={item}
+                            setItemCount={setItemCount}
+                            itemCount={itemCount}
+                            ribbon={ribbon}
+                            setRibbon={setRibbon}
+                        />
                     </div>
-
-
-                    <CartItem
-                        id={idForMerch}
-                        itemCount={itemCount}
-                        setItemCount={setItemCount}
-                        ribbon={ribbon}
-                        setRibbon={setRibbon}
-                    />
 
                     <footer>
                         <hr className="hrCart" />

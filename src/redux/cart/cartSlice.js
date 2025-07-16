@@ -30,9 +30,9 @@ export const syncCartWithServer = createAsyncThunk(
 
   async (cartItems, thunkAPI) => {
     try {
-      const userId = thunkAPI.getState().auth.user._id;
+      const productId = thunkAPI.getState().auth.product._id;
       const response = await axios.post('/api/cart', {
-        userId,
+        productId,
         items: cartItems,
       });
       return response.data;
@@ -58,13 +58,13 @@ const cartSlice = createSlice({
     clearCart: (state) => {
       state.cartItems = [];
     },
-    resetCart:() => initialState,
+    resetCart: () => initialState,
     removeItem: (state, action) => {
       const itemId = action.payload;
       state.cartItems = state.cartItems.filter((item) => item.id !== itemId);
     },
     addToCart: (state, { payload }) => {
-      const existing = state.cartItems.find(item => item.id === payload.id);
+      const existing = state.cartItems.find(item => item.productId === payload.productId);
       if (existing) {
         existing.amount += payload.amount || 1;
       } else {
@@ -75,17 +75,17 @@ const cartSlice = createSlice({
       }
     },
     increase: (state, { payload }) => {
-      const cartItem = state.cartItems.find((item) => item.id === payload.id);
+      const cartItem = state.cartItems.find((item) => item.productId === payload.productId);
       if (cartItem) {
         cartItem.amount += 1;
       }
     },
     decrease: (state, { payload }) => {
-      const cartItem = state.cartItems.find((item) => item.id === payload.id);
+      const cartItem = state.cartItems.find((item) => item.productId === payload.productId);
       if (cartItem && cartItem.amount > 1) {
         cartItem.amount -= 1;
       } else {
-        state.cartItems = state.cartItems.filter((item) => item.id !== payload.id);
+        state.cartItems = state.cartItems.filter((item) => item.productId !== payload.productId);
       }
     },
     calculateTotals: (state) => {
@@ -98,6 +98,25 @@ const cartSlice = createSlice({
       state.amount = amount;
       state.total = total;
     },
+    extraReducers: (builder) => {
+      builder
+        .addCase(syncCartWithServer.pending, (state) => {
+          state.isLoading = true;
+          state.isError = false;
+          state.isSuccess = false;
+        })
+        .addCase(syncCartWithServer.fulfilled, (state, action) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          // Optionally sync server's response with local cartItems
+          // state.cartItems = action.payload.items;
+        })
+        .addCase(syncCartWithServer.rejected, (state, action) => {
+          state.isLoading = false;
+          state.isError = true;
+          console.error('Sync failed:', action.payload);
+        });
+    }
   },
 
 });

@@ -74,6 +74,8 @@ function App() {
                                     setItemCount={setItemCount}
                                     ribbon={ribbon}
                                     setRibbon={setRibbon}
+                                    setOpenCart={setOpenCart}
+                                    openCart={openCart}
                                 />
                             }
 
