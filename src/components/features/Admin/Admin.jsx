@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './Admin.css'
 
 
-const Admin = ({ }) => {
+const Admin = ( ) => {
 
     const [showGameList, setShowGameList] = useState(false);
     const [showMerchList, setShowMerchList] = useState(false);
@@ -23,7 +23,11 @@ const Admin = ({ }) => {
 
     return (
         <>
-            <Header />
+            <Header
+                title="Admin Dashboard"
+                subtitle="Manage Games and Merchandise"
+                className="admin-header"
+            />
 
             <div className="admin-container">
 

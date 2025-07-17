@@ -154,7 +154,7 @@ const GameForm = () => {
                         <div className="image-preview">
                             <p>Image Preview:</p>
                             {/* Display the preview of the uploaded image */}
-                            <img src={preview} alt="Game Image Preview" style={{ maxWidth: "100%", height: 'auto', marginTop: '10px' }} />
+                            <img src={preview} alt="Game cover preview" style={{ maxWidth: "100%", height: 'auto', marginTop: '10px' }} />
                         </div>
                     )}
 

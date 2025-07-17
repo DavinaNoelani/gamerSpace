@@ -7,7 +7,6 @@ const Cart = ({ setOpenCart, setItemCount, itemCount, ribbon, setRibbon, item, a
 
     const dispatch = useDispatch();
 
-
     // If the cart is empty, return an empty cart message
     if (amount < 1) {
         return (
