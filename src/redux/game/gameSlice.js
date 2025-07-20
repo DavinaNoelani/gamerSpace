@@ -239,7 +239,7 @@ export const gameReducer = createSlice({
       .addCase(getGames.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload;
+        
       });
   }
 });
@@ -248,4 +248,4 @@ export const gameReducer = createSlice({
 export const { actions: gameActions } = gameSlice;
 
 export default gameSlice.reducer;
-export const { reset } = gameSlice.actions;
+// export const { reset } = gameSlice.actions;

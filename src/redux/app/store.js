@@ -3,7 +3,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // ✅ correct import
 // Reducers
 // Note: You can also use combineReducers from 'redux' if you prefer
-import gameReducer from '../game/gameSlice';
+import gameReducer from '../game/gameSlice.js';
 import merchReducer from '../merch/merchSlice';
 import userReducer from '../../redux/user/userSlice';
 import modalReducer from '../../redux/modal/modalSlice';
@@ -18,7 +18,7 @@ const persistConfig = {
 
 //Combine reducers
 // Note: You can also use combineReducers from 'redux' if you prefer
-const rootReducer = {
+const combineReducers = {
   game: gameReducer,
   merch: merchReducer,
   user: userReducer,
@@ -27,7 +27,7 @@ const rootReducer = {
 };
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: combineReducers,
 });
 
 export const persistor = persistStore(store);
