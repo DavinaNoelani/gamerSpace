@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { createGame } from '../../../redux/game/gameSlice.js';
 import '../admin/Admin.css';
@@ -9,10 +9,8 @@ import '../admin/Admin.css';
 
 
 const GameForm = () => {
-    // useState hooks to manage form state
-    // These hooks are used to manage the state of the form fields and feedback messages.
-    // State variables for game form
-    // These variables will hold the input values for the form fields.  
+    // State variables for form fields and feedback messages
+    
     const [title, setTitle] = useState('')
     const [console, setConsole] = useState('')
     const [price, setPrice] = useState('')

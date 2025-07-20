@@ -3,13 +3,7 @@ import axios from 'axios'
 
 const API_URL = 'http://localhost:5000/api/games';
 
-const initialState = {
-    games: [],
-    isError: false,
-    isSuccess: false,
-    isLoading: false
-}
-
+// This file contains the Redux slice for managing game-related state in a gaming application.
 // get games
 export const getGames = createAsyncThunk(
     'games',
@@ -43,12 +37,23 @@ export const createGame = createAsyncThunk('game/create', async (formData, thunk
 
 
 // edit game
+/**
+ * Async thunk to edit a game's title.
+ *
+ * Dispatches a PUT request to update the game's title by ID, then refreshes the games list.
+ *
+ * @function
+ * @param {Object} sentToRedux - The payload containing game data.
+ * @param {string|number} sentToRedux.id - The ID of the game to edit.
+ * @param {string} sentToRedux.title - The new title for the game.
+ * @param {Object} thunkAPI - Thunk API object for dispatching actions and handling errors.
+ * @returns {Promise<Object>} Resolves with an object containing the updated game's ID and new title, or rejects with an error message.
+ */
+
 export const editGame = createAsyncThunk(
-    'games/edit',
+    'game/edit',
     async (sentToRedux, thunkAPI) => {
         try {
-            const response = await axios.put(`${API_URL}/edit-game/${sentToRedux.id}`,
-                { title: sentToRedux.title });
             await thunkAPI.dispatch(getGames())
             return  { id: sentToRedux.id, newTitle: sentToRedux.title }; // 👈 this is key
         } catch (error) {
@@ -57,15 +62,26 @@ export const editGame = createAsyncThunk(
     }
 );
 
-
 // delete game
+/**
+ * Async thunk to delete a game by its ID.
+ * Sends a DELETE request to the API and dispatches getGames to refresh the game list.
+ *
+ * @function
+ * @param {Object} sentToRedux - The payload containing game data.
+ * @param {string|number} sentToRedux.id - The ID of the game to delete.
+ * @param {Object} thunkAPI - Thunk API object for dispatching actions and handling errors.
+ * @returns {Promise<Object>} Resolves with the deleted game's ID, or rejects with an error message.
+ */
 export const deleteGame = createAsyncThunk(
-    'games/delete',
-    async (id, thunkAPI) => {
+    'game/delete',
+    async (sentToRedux, thunkAPI) => {
         try {
-            const response = await axios.delete(`${API_URL}/${id}`);
+            const response = await axios.delete(`${API_URL}/${sentToRedux}`);
             await thunkAPI.dispatch(getGames());
-            return response.data
+            return response.data; // This should return the deleted game data
+        // If you want to return the deleted game ID, you can do so like this:
+        // return { id: sentToRedux };  
         } catch (error) {
             return thunkAPI.rejectWithValue('delete not working');
         }
@@ -73,6 +89,20 @@ export const deleteGame = createAsyncThunk(
 );
 
 // add comment
+/**
+ * Async thunk to add a comment to a game.
+ *
+ * Dispatches a PUT request to the API to add a comment for the specified game ID,
+ * then refreshes the games list by dispatching getGames().
+ *
+ * @function
+ * @param {Object} sentToRedux - The payload containing the game ID and comment.
+ * @param {string|number} sentToRedux.id - The ID of the game to add the comment to.
+ * @param {string} sentToRedux.comment - The comment to be added.
+ * @param {Object} thunkAPI - The thunk API object provided by Redux Toolkit.
+ * @returns {Promise<Object>} The response data from the API if successful.
+ * @throws {string} Returns a rejection value if the request fails.
+ */
 export const addComment = createAsyncThunk(
     'games/add-comment',
     async (sentToRedux, thunkAPI) => {
@@ -88,9 +118,14 @@ export const addComment = createAsyncThunk(
 
 const gameSlice = createSlice({
     name: 'game',
-    initialState,
     reducers: {
-        reset: (state) => initialState,
+        reset: (state) => {
+            state.games = [];
+            state.isError = false;
+            state.isSuccess = false;
+            state.isLoading = false;
+            state.message = '';
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -105,28 +140,30 @@ const gameSlice = createSlice({
             .addCase(createGame.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
+                state.message = action.payload;
             })
             .addCase(getGames.pending, (state) => {
                 state.isLoading = true;
             })
             .addCase(getGames.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.isError = false;
                 state.isSuccess = true;
                 state.games = action.payload;
             })
             .addCase(getGames.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
+                state.message = action.payload;
             })
-            .addCase(deleteGame.pending, (state) => {
-                state.isLoading = true;
+           .addCase(deleteGame.pending, (state) => {
+                state.isLoading = true; 
             })
-            .addCase(deleteGame.fulfilled, (state, action) => {
+            .addCase(deleteGame.fulfilled, (state, action) => { 
                 state.isLoading = false;
-                state.isSuccess = true;
-                const index = state.games.findIndex((game) => game._id === action.payload._id)
-                state.games.splice(index, 1)
-
+                state.isSuccess = true; 
+                const index = state.games.findIndex((game) => game._id === action.payload._id);
+                state.games.splice(index, 1);
             })
             .addCase(deleteGame.rejected, (state, action) => {
                 state.isLoading = false;
@@ -136,16 +173,22 @@ const gameSlice = createSlice({
             .addCase(editGame.pending, (state) => {
                 state.isLoading = true;
             })
+            .addCase(editGame.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
             .addCase(editGame.fulfilled, (state, action) => {
+                state.isLoading = false;
                 const { id, newTitle } = action.payload;
+                state.isSuccess = true;
+                state.message = 'Game updated successfully';
+                // Find the game by id and update its title
+                // This is where we update the title of the game in the state
                 const index = state.games.findIndex((game) => game._id === id);
                 if (index !== -1) {
                     state.games[index].title = newTitle;
                 }
-            })
-            .addCase(editGame.rejected, (state, action) => {
-                state.isLoading = false;
-                state.isError = true;
             })
             .addCase(addComment.pending, (state) => {
                 state.isLoading = true;
@@ -153,18 +196,56 @@ const gameSlice = createSlice({
             .addCase(addComment.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                const index = state.games.findIndex((game) => game._id === action.payload._id)
-                // state.games.comment.push(action.payload)
-                state.games.splice(index, 1, action.payload)
-                // console.log(state.games.comment, 'state.comment')
+                const index = state.games.findIndex((game) => game._id === action.payload._id);
+                state.games[index].comment.push(action.payload.comment);
             })
             .addCase(addComment.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
+                state.message = action.payload;
             })
-    },
+    }
 });
 
-console.log(gameSlice)
+export const gameReducer = createSlice({
+  name: 'game',
+  initialState: {
+    games: [],
+    isLoading: false,
+    isError: false,
+    isSuccess: false,
+    message: '',
+  },
+  reducers: {
+    reset: (state) => {
+      state.games = [];
+      state.isError = false;
+      state.isSuccess = false;
+      state.isLoading = false;
+      state.message = '';
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getGames.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getGames.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.games = action.payload;
+      })
+      .addCase(getGames.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      });
+  }
+});
+
+// console.log(gameSlice)
+export const { actions: gameActions } = gameSlice;
+
 export default gameSlice.reducer;
 export const { reset } = gameSlice.actions;

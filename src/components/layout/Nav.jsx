@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import UserInfo from "../features/admin/UserInfo.jsx";
 import Cart from "../cart/Cart";
 import Login from "../features/admin/Login.jsx";
@@ -18,7 +18,7 @@ const Nav = ({ setTheme,
 
 
     const [switchLog, setSwitchLog] = useState(true)
-    const navigate = useNavigate();
+
 
 
     const randomize = () => {
