@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import React from 'react';
 import { useEffect, useState } from 'react';
 import Home from './pages/Home';
 import Nav from './components/layout/Nav';
@@ -14,7 +13,6 @@ import Blog from './pages/Blog.jsx';
 import { calculateTotals } from './redux/cart/cartSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import Zoom from './components/common/Zoom.jsx';
-//import './App.css'; // Assuming you have some styles for the app
 // import { openModal } from './redux/modal/modalSlice';
 
 

@@ -45,7 +45,7 @@ export const editMerch = createAsyncThunk(
     'merch/edit',
     async (merchId, thunkAPI) => {
         try {
-            const response = await axios.put(`${API_URL}/edit-merch/${merchId}`,
+            await axios.put(`${API_URL}/edit-merch/${merchId}`,
                 // send all the merch data to the server
                 // this is the data that was sent to the redux store
                 {

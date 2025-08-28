@@ -444,11 +444,11 @@ code {
 
   0%,
   100% {
-    box-shadow: #ffffff 0 1px 6px;
+    filter: drop-shadow(0 1px 6px #ffffff);
   }
 
   50% {
-    box-shadow: #ff0000 0 1px 6px;
+    filter: drop-shadow(0 1px 6px #ff0000);
   }
 }
 
@@ -2039,10 +2039,6 @@ input:focus {
 
 .hoverable li:hover {
   background-color: #f1f1f1;
-}
-
-li .padding16 {
-  text-align: -webkit-match-parent;
 }
 
 .padding {

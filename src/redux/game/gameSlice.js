@@ -3,6 +3,13 @@ import axios from 'axios'
 
 const API_URL = 'http://localhost:5000/api/games';
 
+const initialState = {
+    games: [],
+    isError: false,
+    isSuccess: false,
+    isLoading: false
+}
+
 // This file contains the Redux slice for managing game-related state in a gaming application.
 // get games
 export const getGames = createAsyncThunk(
@@ -37,19 +44,6 @@ export const createGame = createAsyncThunk('game/create', async (formData, thunk
 
 
 // edit game
-/**
- * Async thunk to edit a game's title.
- *
- * Dispatches a PUT request to update the game's title by ID, then refreshes the games list.
- *
- * @function
- * @param {Object} sentToRedux - The payload containing game data.
- * @param {string|number} sentToRedux.id - The ID of the game to edit.
- * @param {string} sentToRedux.title - The new title for the game.
- * @param {Object} thunkAPI - Thunk API object for dispatching actions and handling errors.
- * @returns {Promise<Object>} Resolves with an object containing the updated game's ID and new title, or rejects with an error message.
- */
-
 export const editGame = createAsyncThunk(
     'game/edit',
     async (sentToRedux, thunkAPI) => {
@@ -63,16 +57,6 @@ export const editGame = createAsyncThunk(
 );
 
 // delete game
-/**
- * Async thunk to delete a game by its ID.
- * Sends a DELETE request to the API and dispatches getGames to refresh the game list.
- *
- * @function
- * @param {Object} sentToRedux - The payload containing game data.
- * @param {string|number} sentToRedux.id - The ID of the game to delete.
- * @param {Object} thunkAPI - Thunk API object for dispatching actions and handling errors.
- * @returns {Promise<Object>} Resolves with the deleted game's ID, or rejects with an error message.
- */
 export const deleteGame = createAsyncThunk(
     'game/delete',
     async (sentToRedux, thunkAPI) => {
@@ -115,7 +99,7 @@ export const addComment = createAsyncThunk(
         }
     }
 )
-
+/*
 const gameSlice = createSlice({
     name: 'game',
     reducers: {
@@ -205,26 +189,12 @@ const gameSlice = createSlice({
                 state.message = action.payload;
             })
     }
-});
+}); 
+*/
 
-export const gameReducer = createSlice({
+const gameSlice = createSlice({
   name: 'game',
-  initialState: {
-    games: [],
-    isLoading: false,
-    isError: false,
-    isSuccess: false,
-    message: '',
-  },
-  reducers: {
-    reset: (state) => {
-      state.games = [];
-      state.isError = false;
-      state.isSuccess = false;
-      state.isLoading = false;
-      state.message = '';
-    },
-  },
+  initialState,
   extraReducers: (builder) => {
     builder
       .addCase(getGames.pending, (state) => {
@@ -248,4 +218,4 @@ export const gameReducer = createSlice({
 export const { actions: gameActions } = gameSlice;
 
 export default gameSlice.reducer;
-// export const { reset } = gameSlice.actions;
+export const { reset } = gameSlice.actions;
