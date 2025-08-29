@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { getGames, reset, addComment } from '../../../redux/game/gameSlice';
+import { getGames} from '../../../redux/gameSlice.js';
 import { dateConversion } from "../../../constants/functions";
-import { addToCart, syncCartWithServer } from "../../../redux/cart/cartSlice";
+import { addItem } from "../../../redux/cartSlice.js";
 import Header from "../../layout/Header.jsx";
 import hearts from '../../../assets/images/hearts.png';
 import avatar from '../../../assets/images/girl_mountain.jpg';
+
 
 
 
@@ -13,7 +14,7 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
 
     const dispatch = useDispatch();
     const { games, isError } = useSelector((state) => state.game);
-    
+
     const [showComments, setShowComments] = useState(false)
     const [message, setMessage] = useState('')
     const [showFilter, setShowFilter] = useState(false)
@@ -29,7 +30,7 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
     const [imgSrc, setImgSrc] = useState('')
     const [fullView, setFullView] = useState(false)
 
-    const cartItems = useSelector((state) => state.cart.cartItems)
+    // const cartItems = useSelector((state) => state.cart.cartItems)
 
     useEffect(() => {
         if (isError) {      
@@ -52,22 +53,7 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
         setHideButton(false)
     }
 
-    const postComment = (id, currentArray) => {
-        const newComment = {
-            message: message,
-            date: Date.now()
-        }
-
-        const newMessageArray = [...currentArray, newComment]
-        const sendToRedux = {
-            newComments: newMessageArray,
-            id: id
-        }
- 
-
-        dispatch(addComment(sendToRedux))
-        setMessage('')
-    }
+  
 
     const switchCommentView = () => {
         setShowComments(true)
@@ -78,14 +64,8 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
     const addToCartHandle = () => {
         setItemCount(itemCount + 1)
         setRibbon(true)
-        dispatch(addToCart({
-            id: cartItems.length + 1,
-            price: cartItems.price,
-            title: cartItems.title,
-            image: cartItems.image,
-            amount: 1
-        }))
-        dispatch(syncCartWithServer(cartItems))
+      
+
     }
 
     const searchHandle = (e) => {
@@ -310,7 +290,7 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
                                                         <div className="font-on-display price-text">
                                                             &#128178; {game.price}
                                                         </div>
-                                                        <button data-bs-toggle="tooltip" title="Buy" className="buy-btn" onClick={() => addToCart(game._id, game.price, game.title, game.image)}>&#128722;</button>
+                                                        <button data-bs-toggle="tooltip" title="Buy" className="buy-btn" onClick={() => addItem(game._id, game.price, game.title, game.image)}>&#128722;</button>
                                                     </div>
                                                 </div>
 
@@ -470,7 +450,7 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
                                             />
 
                                             <div className="button-wrap grid-item6">
-                                                <button className="btn" onClick={() => postComment(game._id, game.comment)}>Send &#128233;</button>
+                                                <button className="btn">Send &#128233;</button>
                                             </div>
                                         </div>
                                     </div>

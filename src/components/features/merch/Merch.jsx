@@ -20,7 +20,7 @@ const Merch = ({ editMerchHandle, id, name, deleteMerchHandle, image, merchType 
                     Edit: {name}
                 </label>
 
-                <img className='view-thumbnail' src={image} />
+                <img alt='Merch item' className='view-thumbnail' src={image} />
 
                 <input
                     id={id}

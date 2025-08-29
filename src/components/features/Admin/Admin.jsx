@@ -4,9 +4,9 @@ import MerchForm from "../merch/MerchForm.jsx"
 import Header from "../../layout/Header.jsx";
 import Games from "../games/Games.jsx";
 import Merch from "../merch/Merch.jsx";
-import EditableList from "../../common/EditableList";
-import { deleteGame, editGame } from '../../../redux/game/gameSlice';
-import { deleteMerch, editMerch } from '../../../redux/merch/merchSlice';
+import EditableList from "../../common/Filter.jsx";
+import { deleteGame, editGame } from '../../../redux/gameSlice.js';
+import { deleteMerch, editMerch } from '../../../redux/merchSlice.js';
 import { useSelector, useDispatch } from 'react-redux';
 import './Admin.css'
 

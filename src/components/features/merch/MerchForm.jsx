@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
-import { createMerch } from '../../../redux/merch/merchSlice';
+import { createMerch } from '../../../redux/merchSlice';
 
 
 const MerchForm = () => {
@@ -163,7 +163,11 @@ const MerchForm = () => {
                         className='form-input'
                     />
                     <div className="image-preview">
-                        {image && <img src={URL.createObjectURL(image)} alt="Image Preview" />}
+                        
+                        {image && (
+                            <img alt={image.name} src={URL.createObjectURL(image)} />
+                        )}
+
                     </div>
                     <label htmlFor="rating" className='form-label'>Rating</label>
                     <input

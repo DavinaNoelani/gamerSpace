@@ -34,9 +34,9 @@ const MerchList = () => {
             }
             return ms
         })
-        const editedMerch = {
-            name: newName
-        }
+        // const editedMerch = {
+        //     name: newName
+        // }
 
         const sendToRedux = {
             id: id,

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
-import { createGame } from '../../../redux/game/gameSlice.js';
+import { createGame } from '../../../redux/gameSlice.js';
 import '../admin/Admin.css';
+
 
 // This component is used to add a new game to the database
 // It includes a form with fields for title, console, price, rating, description, and an image upload for the game cover.
@@ -22,9 +23,11 @@ const GameForm = () => {
 
     const dispatch = useDispatch();
 
-    // This function is called when the form is submitted. It validates the form fields and dispatches the createGame action to add the new game to the database.
+    // This function is called when the form is submitted.
+    //  It validates the form fields and dispatches the createGame action to add the new game to the database.
     // It also resets the form fields and provides feedback to the user.        
     // This function handles the form submission for adding a new game.
+
     const addGameHandle = (e) => {
         e.preventDefault();
         // Validate form fields
@@ -32,6 +35,7 @@ const GameForm = () => {
             setFeedback('Please fill in all fields.');
             return;
         }
+
         // Create a newGame object to handle file uploads
         const newGame = {
             title,

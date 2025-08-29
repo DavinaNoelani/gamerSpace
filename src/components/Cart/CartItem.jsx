@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { ChevronDown, ChevronUp } from '../../assets/icons.js';
-import { removeItem, increase, decrease } from '../../redux/cart/cartSlice.js';
+import { removeItem, addItem, decreaseItem } from '../../redux/cartSlice.js';
 
 
 const CartItem = ({ item, setItemCount, itemCount, ribbon, setRibbon }) => {
@@ -37,7 +37,7 @@ const CartItem = ({ item, setItemCount, itemCount, ribbon, setRibbon }) => {
                 </div>
 
                 <div className='amount-btn-container'>
-                    <button className='amount-btn' onClick={() => dispatch(increase(item.id))}>
+                    <button className='amount-btn' onClick={() => dispatch(addItem(item.id))}>
                         <ChevronUp />
                     </button>
 
@@ -48,7 +48,7 @@ const CartItem = ({ item, setItemCount, itemCount, ribbon, setRibbon }) => {
                                 dispatch(removeItem(item.id))
                                 return;
                             }
-                            dispatch(decrease(item.id))
+                            dispatch(decreaseItem(item.id))
                         }}
                     >
                         <ChevronDown />

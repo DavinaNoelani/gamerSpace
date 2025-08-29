@@ -1,14 +1,19 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 // import Construction from "./underConstruction";
 import Header from "../components/layout/Header.jsx";
 import Login from "../components/features/admin/Login.jsx";
+import { close } from '../redux/modalSlice.js';
 
 
 
 const Home = ({ setLogModal, setOpenLogin, openLogin }) => {
-    
+
+    const { isOpen } = useSelector((state) => state.modal);
+
     const navigate = useNavigate('')
+    const dispatch = useDispatch();
 
     const [openBrowse, setOpenBrowse] = useState(false)
 
@@ -18,7 +23,9 @@ const Home = ({ setLogModal, setOpenLogin, openLogin }) => {
             <Header />
 
             <div className="btn-group buttonDiv">
-                <button className="btn" onClick={() => setOpenBrowse(true)}>
+                {/* <button className="btn" onClick={() => setOpenBrowse(true)}> */}
+
+                <button className="btn" onClick={() => {setOpenBrowse(true); dispatch(close())}}>
                     Browse
                 </button>
 
@@ -26,11 +33,13 @@ const Home = ({ setLogModal, setOpenLogin, openLogin }) => {
                     <span className="vl-innertext">or</span>
                 </div>
 
-                <button className="btn" onClick={() => setOpenLogin(true)}>Login</button>
+                <button className="btn" onClick={() => {dispatch(close()); setOpenLogin(true)}}>Login</button>
             </div>
 
             {openLogin &&
                 <Login
+                    isOpen={isOpen}
+                    onClose={() => dispatch(close())}
                     setOpenLogin={setOpenLogin}
                     setLogModal={setLogModal}
                 />

@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Home from './pages/Home';
 import Nav from './components/layout/Nav';
 import Admin from './components/features/admin/Admin.jsx';
@@ -10,19 +10,21 @@ import Footer from './components/layout/Footer.jsx';
 import SideNav from './components/layout/SideNav.jsx';
 import Modal from './components/common/Modal.jsx';
 import Blog from './pages/Blog.jsx';
-import { calculateTotals } from './redux/cart/cartSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import Zoom from './components/common/Zoom.jsx';
-// import { openModal } from './redux/modal/modalSlice';
+import { close } from './redux/modalSlice.js';
+// import FilterElements from './pages/FilterElements.jsx';
 
 
 
 
 const App = () => {
 
+
     const dispatch = useDispatch();
-    const { cartItems } = useSelector((state) => state.cart);
+
     const { isOpen } = useSelector((state) => state.modal);
+
     const [theme, setTheme] = useState('')
     const [userInfo, setUserInfo] = useState([])
     const [openSave, setOpenSave] = useState(false)
@@ -36,10 +38,7 @@ const App = () => {
 
 
 
-    useEffect(() => {
-        dispatch(calculateTotals());
 
-    }, [dispatch, cartItems]);
 
 
 
@@ -48,6 +47,8 @@ const App = () => {
             <div id={theme} className='app'>
                 <Router>
                     <Nav
+                        isOpen={isOpen}
+                        onClose={() => dispatch(close())}
                         theme={theme}
                         setTheme={setTheme}
                         openSave={openSave}
@@ -82,6 +83,8 @@ const App = () => {
                         <Route path='/'
                             element={
                                 <Home
+                                    isOpen={isOpen}
+                                    onClose={() => dispatch(close())}
                                     theme={theme}
                                     setTheme={setTheme}
                                     logModal={logModal}
@@ -90,10 +93,13 @@ const App = () => {
                                     setOpenLogin={setOpenLogin}
                                 />}
                         />
+
                         <Route
                             path='/admin'
                             element={
                                 <Admin
+                                    isOpen={isOpen}
+                                    onClose={() => dispatch(close())}
                                     userInfo={userInfo}
                                     setUserInfo={setUserInfo}
                                     openSave={openSave}
@@ -105,14 +111,17 @@ const App = () => {
                                     cart={cart}
                                     setCart={setCart}
                                     idForMerch={idForMerch}
-                                    setId={setId}   
+                                    setId={setId}
                                 />
                             }
                         />
+
                         <Route
                             path='/add-user'
                             element={
                                 <UserInfo
+                                    isOpen={isOpen}
+                                    onClose={() => dispatch(close())}
                                     userInfo={userInfo}
                                     setUserInfo={setUserInfo}
                                 />
@@ -122,6 +131,8 @@ const App = () => {
                             path='/games'
                             element={
                                 <GameDisplay
+                                    isOpen={isOpen}
+                                    onClose={() => dispatch(close())}
                                     itemCount={itemCount}
                                     setItemCount={setItemCount}
                                     ribbon={ribbon}
@@ -136,6 +147,8 @@ const App = () => {
                             path='/merch'
                             element={
                                 <MerchDisplay
+                                    isOpen={isOpen}
+                                    onClose={() => dispatch(close())}
                                     itemCount={itemCount}
                                     setItemCount={setItemCount}
                                     ribbon={ribbon}
@@ -147,6 +160,23 @@ const App = () => {
                                 />
                             }
                         />
+                        {/* <Route
+                            path='/filter'
+                            element={
+                                <FilterElements
+                                    isOpen={isOpen}
+                                    onClose={() => dispatch(close())}
+                                    itemCount={itemCount}
+                                    setItemCount={setItemCount}
+                                    ribbon={ribbon}
+                                    setRibbon={setRibbon}
+                                    cart={cart}
+                                    setCart={setCart}
+                                    idForMerch={idForMerch}
+                                    setId={setId}
+                                />
+                            }
+                        /> */}
 
                         <Route
                             path='/blog'

@@ -73,20 +73,6 @@ export const deleteGame = createAsyncThunk(
 );
 
 // add comment
-/**
- * Async thunk to add a comment to a game.
- *
- * Dispatches a PUT request to the API to add a comment for the specified game ID,
- * then refreshes the games list by dispatching getGames().
- *
- * @function
- * @param {Object} sentToRedux - The payload containing the game ID and comment.
- * @param {string|number} sentToRedux.id - The ID of the game to add the comment to.
- * @param {string} sentToRedux.comment - The comment to be added.
- * @param {Object} thunkAPI - The thunk API object provided by Redux Toolkit.
- * @returns {Promise<Object>} The response data from the API if successful.
- * @throws {string} Returns a rejection value if the request fails.
- */
 export const addComment = createAsyncThunk(
     'games/add-comment',
     async (sentToRedux, thunkAPI) => {
@@ -196,7 +182,12 @@ const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
-    reset: (state) => initialState,
+    reset: (state) => {
+      state.games = [];
+      state.isError = false;
+      state.isSuccess = false;
+      state.isLoading = false;
+    },
   },
   extraReducers: (builder) => {
     builder

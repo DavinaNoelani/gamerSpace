@@ -1,5 +1,6 @@
 // import { useEffect, useState } from "react";
 // import { useSelector, useDispatch } from 'react-redux';
+
 // import { getGames, reset, addComment } from '../../../redux/game/gameSlice';
 // import { dateConversion } from "../../../constants/functions";
 // import { addToCart, syncCartWithServer } from "../../../redux/cart/cartSlice";
@@ -8,8 +9,12 @@
 // import avatar from '../../../assets/images/girl_mountain.jpg';
 
 const DisplayPage = () => {
+
+    // const dispatch = useDispatch();
+    // const { isOpen } = useSelector((state) => state.modal);
+
     return (
-        <div>
+        <div className="content">
             <h1>Game Display Page</h1>
         </div>
     );

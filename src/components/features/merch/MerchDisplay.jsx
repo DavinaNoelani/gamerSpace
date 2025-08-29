@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart } from "../../../redux/cart/cartSlice";
-import { getMerch } from '../../../redux/merch/merchSlice';
+import { addItem } from "../../../redux/cartSlice";
+import { getMerch } from '../../../redux/merchSlice';
 import hearts from '../../../assets/images/hearts.png'
 import Header from "../../layout/Header";
 import Zoom from "../../common/Zoom";
-
 
 
 
@@ -16,16 +15,15 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
 
     const { merch } = useSelector((state) => state.merch);
     // console.log(merch, 'merch')
-    const { cartItems, amount } = useSelector((state) => state.cart)
 
     const { user } = useSelector((state) => state.user)
 
+    // const [selectedValue, setSelectedValue] = useState(null);
     const [showFilter, setShowFilter] = useState(false)
     const [hideButton, setHideButton] = useState(true)
     const [search, setSearch] = useState('')
     const [matchesList, setMatchesList] = useState([])
     const [matches, setMatches] = useState(false)
-    const [size, setSize] = useState([])
     const [type, setType] = useState('')
     const [imgSrc, setImgSrc] = useState('')
     const [fullView, setFullView] = useState(false)
@@ -40,7 +38,7 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
         }
         // Fetch merch data when the component mounts
         dispatch(getMerch())
-    }, [dispatch])
+    }, [dispatch, user, setId])
 
     const showFilterHandle = () => {
         setShowFilter(true)
@@ -135,11 +133,11 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
     }
 
     const reset = () => {
+        // setSelectedValue('')
         setMatches(false)
         setSearch('')
         setMatchesList([])
-        setSize('')
-        setType('')
+        // setItemSize('')
         // Optionally, uncheck all checkboxes and reset select input if needed
         const checkboxes = ['checkboxS', 'checkboxM', 'checkboxL', 'checkboxAZ', 'lowToHigh', 'highToLow'];
         checkboxes.forEach(id => {
@@ -155,14 +153,14 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
         setItemCount(itemCount + 1)
         setRibbon(true)
 
-        const addItem = {
+        const addProduct = {
             id: id,
             title: name,
             price: price,
             img: img,
             amount: 1
         }
-        dispatch(addToCart(addItem))
+        dispatch(addItem(addProduct))
     }
 
 
@@ -170,6 +168,10 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
         setImgSrc(img)
         setFullView(true)
     }
+
+    // const handleElementClick = (value) => {
+    //     setSelectedValue(value);
+    // };
 
     return (
         <>
@@ -199,70 +201,76 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
                                 <input value={search} onChange={(e) => setSearch(e.target.value)} type='text' className="filter-input" />
                                 <button className="filter-btn" onClick={searchHandle}>Search</button>
                             </div>
+
                             <br />
+
                             <h4>Filter</h4>
 
                             <h5 className="mt-3">Size</h5>
                             <div className="display-flex">
                                 <div className="form-group form-check check-flex">
-                                    <input id="checkboxS" className="form-check-input" type='checkbox' value='S' onChange={(e) => setSize(e.target.value)} />
+                                    <input id="checkboxS" className="form-check-input" type='checkbox' value='S' />
                                     <label htmlFor="checkboxS" className="label form-check-label">S</label>
-                                </div>
+                                    <input id="checkboxS" className="form-check-input" type='checkbox' value='S' />
 
-                                <div className="form-group form-check check-flex">
-                                    <input id="checkboxM" className="form-check-input" type='checkbox' value='M' onChange={(e) => setSize(e.target.value)} />
-                                    <label htmlFor="checkboxM" className="label form-check-label">M</label>
-                                </div>
+                                    <div className="form-group form-check check-flex">
+                                        <input id="checkboxM" className="form-check-input" type='checkbox' value='M' />
+                                        <label htmlFor="checkboxM" className="label form-check-label">M</label>
+                                        <input id="checkboxM" className="form-check-input" type='checkbox' value='M' />
 
-                                <div className="form-group form-check check-flex">
-                                    <input id="checkboxL" className="form-check-input" type='checkbox' value='L' onChange={(e) => setSize(e.target.value)} />
-                                    <label htmlFor="checkboxL" className="label form-check-label">L</label>
+                                        <div className="form-group form-check check-flex">
+                                            <input id="checkboxL" className="form-check-input" type='checkbox' value='L' />
+                                            <label htmlFor="checkboxL" className="label form-check-label">L</label>
+                                            <input id="checkboxL" className="form-check-input" type='checkbox' value='L' />
+                                        </div>
+
+                                        <select className="filter-input select-input" onChange={(e) => setType(e.target.value)} defaultValue="">
+                                            <option value="" disabled>Select..</option>
+                                            {options.slice(1).map((option, index) => {
+                                                return (
+                                                    <option key={index + 1} value={option}>
+                                                        {option}
+                                                    </option>
+                                                )
+                                            })}
+                                        </select>
+                                    </div>
+
+                                    <h6 className="alpha">Price</h6>
+                                    <div className="display-flex">
+                                        <div className="form-group form-check check-flex">
+                                            <input id="lowToHigh" className="form-check-input" type='checkbox' value='LowToHigh'
+                                            />
+                                            <label htmlFor="lowToHigh" className="label form-check-label">Low to High</label>
+                                        </div>
+                                        <div className="form-group form-check check-flex">
+                                            <input id="highToLow" className="form-check-input" type='checkbox' value='HighToLow'
+                                            />
+                                            <label htmlFor="highToLow" className="label form-check-label">High to Low</label>
+                                        </div>
+                                    </div>
+
+                                    <h5>Type</h5>
+                                    <select className="filter-input select-input" onChange={(e) => setType(e.target.value)}>
+                                        {options.map((option, index) => {
+                                            return (
+                                                <option key={index} value={option === 'Select..' ? '' : option}>
+                                                    {option}
+                                                </option>
+                                            )
+                                        })}
+                                    </select>
+
+
+                                    <div className="button-group">
+                                        <button className="filterBtn" onClick={filterChange}>Filter</button>
+                                        <button className="filterBtn" onClick={reset}>Reset</button>
+                                    </div>
                                 </div>
                             </div>
-                            <select className="filter-input select-input" onChange={(e) => setType(e.target.value)} defaultValue="">
-                                <option value="" disabled>Select..</option>
-                                {options.slice(1).map((option, index) => {
-                                    return (
-                                        <option key={index + 1} value={option}>
-                                            {option}
-                                        </option>
-                                    )
-                                })}
-                            </select>
                         </div>
 
-                        <h6 className="alpha">Price</h6>
-                        <div className="display-flex">
-                            <div className="form-group form-check check-flex">
-                                <input id="lowToHigh" className="form-check-input" type='checkbox' value='LowToHigh'
-                                />
-                                <label htmlFor="lowToHigh" className="label form-check-label">Low to High</label>
-                            </div>
-                            <div className="form-group form-check check-flex">
-                                <input id="highToLow" className="form-check-input" type='checkbox' value='HighToLow'
-                                />
-                                <label htmlFor="highToLow" className="label form-check-label">High to Low</label>
-                            </div>
-                        </div>
-
-                        <h5>Type</h5>
-                        <select className="filter-input select-input" onChange={(e) => setType(e.target.value)}>
-                            {options.map((option, index) => {
-                                return (
-                                    <option key={index} value={option === 'Select..' ? '' : option}>
-                                        {option}
-                                    </option>
-                                )
-                            })}
-                        </select>
-
-
-                        <div className="button-group">
-                            <button className="filterBtn" onClick={filterChange}>Filter</button>
-                            <button className="filterBtn" onClick={reset}>Reset</button>
-                        </div>
-
-                    </nav >
+                    </nav>
                 )}
 
                 <div className="container mb-5">
@@ -271,7 +279,7 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
                             {matchesList.map((item, index) => (
                                 <div className="col-lg-4 col-sm-6" key={index}>
                                     <div className="card merch-card" style={{ width: '18rem' }} >
-                                        <img className="img-fluid merch-img" style={{ width: '100%' }} src={item.image} onClick={() => enlargePhoto(item.image)} />
+                                        <img alt={item.name} className="img-fluid merch-img" style={{ width: '100%' }} src={item.image} onClick={() => enlargePhoto(item.image)} />
                                         <div className="h2">{item.name}</div>
                                         <p className="merch-price">${item.price}</p>
                                         <p className="merch-description">{item.description}</p>
@@ -288,8 +296,9 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
                                 <div className="col-lg-4 col-sm-6" key={index}>
                                     <div className="card merch-card" style={{ width: '18rem' }} >
 
-                                        {/* <div className="imgOverlay-container"> */}
-                                        <img className="img-fluid merch-img" style={{ width: '100%' }} src={item.image} onClick={() => enlargePhoto(item.image)} />
+                                        <div className="imgOverlay-container">
+                                            <img alt={item.name} className="img-fluid merch-img" style={{ width: '100%' }} src={item.image} onClick={() => enlargePhoto(item.image)} />
+                                        </div>
                                         {/* <div className="imgOverlay">
                                                 <a className="icon" title="Click to See Full Image">
                                                     Zoom
@@ -300,7 +309,7 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
                                         <div className="h2">{item.name}</div>
                                         <p className="merch-price">${item.price}</p>
                                         <p className="merch-description">{item.description}</p>
-                                        <button className="addToCart" onClick={() => addToCart(item._id, item.price, item.name, item.image)}>Add to Cart</button>
+                                        <button className="addToCart" onClick={() => addItem(item._id, item.price, item.name, item.image)}>Add to Cart</button>
                                     </div>
                                 </div>
                             ))}
@@ -317,10 +326,10 @@ const MerchDisplay = ({ setItemCount, itemCount, setRibbon, idForMerch, setId })
                                 <Zoom image={imgSrc} />
                             </div>
                         </div>
-
-
                     </>
                 )}
+
+
             </div>
         </>
     )

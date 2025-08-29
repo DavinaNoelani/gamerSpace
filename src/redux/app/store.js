@@ -1,33 +1,40 @@
 import { configureStore } from '@reduxjs/toolkit';
+import {combineReducers} from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // ✅ correct import
 // Reducers
 // Note: You can also use combineReducers from 'redux' if you prefer
-import gameReducer from '../game/gameSlice.js';
-import merchReducer from '../merch/merchSlice';
-import userReducer from '../../redux/user/userSlice';
-import modalReducer from '../../redux/modal/modalSlice';
-import cartReducer from '../cart/cartSlice'; // ❌ no need to import actions like addToCart here
-
-// Persist config
-const persistConfig = {
-  key: 'cart',
-  storage,
-};
-
+import gameReducer from '../gameSlice.js';
+import merchReducer from '../merchSlice.js';
+import userReducer from '../userSlice.js';
+import modalReducer from '../modalSlice.js';
+import cartReducer from '../cartSlice.js';
 
 //Combine reducers
 // Note: You can also use combineReducers from 'redux' if you prefer
-const combineReducers = {
+const rootReducer = combineReducers({
   game: gameReducer,
   merch: merchReducer,
   user: userReducer,
   modal: modalReducer,
-  cart: persistReducer(persistConfig, cartReducer), // ✅ wrapped only cart
+  cart: cartReducer, //only cart needs to be persisted
+});
+ const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['cart', 'user'], // Only persist the cart and user slices
 };
 
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 export const store = configureStore({
-  reducer: combineReducers,
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+      },
+    }),
 });
 
 export const persistor = persistStore(store);

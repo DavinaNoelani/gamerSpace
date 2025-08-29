@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 
-const EditableList = ({ items, type, renderItem }) => {
+const Filter = ({ items, type, renderItem }) => {
+
+    // const options = ['Select..', 'Apparel', 'Decor', 'Plushy', 'Gifts', 'Limited Edition']
 
     const [searchTerm, setSearchTerm] = useState('');
     const [sortType, setSortType] = useState('');
@@ -69,4 +71,4 @@ const EditableList = ({ items, type, renderItem }) => {
     );
 }
 
-export default EditableList
+export default Filter
