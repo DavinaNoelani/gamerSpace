@@ -45,9 +45,7 @@ export const editMerch = createAsyncThunk(
     'merch/edit',
     async (merchId, thunkAPI) => {
         try {
-            await axios.put(`${API_URL}/edit-merch/${merchId}`,
-                // send all the merch data to the server
-                // this is the data that was sent to the redux store
+            const response = await axios.put(`${API_URL}/edit-merch/${merchId.id}`,
                 {
                     merchType: merchId.merchType,
                     name: merchId.name,
@@ -61,10 +59,10 @@ export const editMerch = createAsyncThunk(
                     sold: merchId.sold,
                     reviews: merchId.reviews,
                     likes: merchId.likes,
-                }, {
-            });
+                }
+            );
             await thunkAPI.dispatch(getMerch()); // refresh list after edit
-            return { id: merchId.id, newName: merchId.name }; // 👈 this is key
+            return response.data; // return the updated merch data from the server
         } catch (error) {
             return thunkAPI.rejectWithValue('merch edit failed');
         }
@@ -80,7 +78,7 @@ export const deleteMerch = createAsyncThunk(
     async (id, thunkAPI) => {
         try {
             const response = await axios.delete(API_URL + id);
-            getMerch()
+            await thunkAPI.dispatch(getMerch());
             return response.data
         } catch (error) {
             return thunkAPI.rejectWithValue('delete not working');

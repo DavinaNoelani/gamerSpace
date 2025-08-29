@@ -13,6 +13,7 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
 
     const dispatch = useDispatch();
     const { games, isError } = useSelector((state) => state.game);
+    
     const [showComments, setShowComments] = useState(false)
     const [message, setMessage] = useState('')
     const [showFilter, setShowFilter] = useState(false)
@@ -22,9 +23,12 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
     const [matches, setMatches] = useState(false)
     const [search, setSearch] = useState('')
     const [hideButton, setHideButton] = useState(true)
+
     // const [showFilter, setShowFilter] = useState(false)
+
     const [imgSrc, setImgSrc] = useState('')
     const [fullView, setFullView] = useState(false)
+
     const cartItems = useSelector((state) => state.cart.cartItems)
 
     useEffect(() => {
@@ -284,7 +288,9 @@ const GameDisplay = ({ setItemCount, itemCount, setRibbon }) => {
                                     {/* <div className="card-container"> */}
                                     {matchesList.map(game => (
                                         <div className="col-lg-4 col-md-6 col-sm-6" key={game._id}>
-                                            <div className="game-card" style={{ width: '22rem' }}>
+
+                                            <div className="game-card">
+
                                                 <div className="card-body">
                                                     <img className="img-fluid merch-img" alt='game' src={game.image} onClick={() => enlargePhoto(game.image)} />
 

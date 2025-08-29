@@ -195,6 +195,9 @@ const gameSlice = createSlice({
 const gameSlice = createSlice({
   name: 'game',
   initialState,
+  reducers: {
+    reset: (state) => initialState,
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getGames.pending, (state) => {

@@ -37,9 +37,6 @@ const GameList = () => {
             }
             return game
         })
-        const editedGame = {
-            title: newTitle
-        }
 
         const sendToRedux = {
             id: id,

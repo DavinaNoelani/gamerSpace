@@ -12,7 +12,7 @@ const GameForm = () => {
     // State variables for form fields and feedback messages
     
     const [title, setTitle] = useState('')
-    const [console, setConsole] = useState('')
+    const [consoleName, setConsoleName] = useState('')
     const [price, setPrice] = useState('')
     const [rating, setRating] = useState('')
     const [description, setDescription] = useState('')
@@ -28,14 +28,14 @@ const GameForm = () => {
     const addGameHandle = (e) => {
         e.preventDefault();
         // Validate form fields
-        if (!console || !title || !price || !rating || !description || !gameImg) {
+        if (!consoleName || !title || !price || !rating || !description || !gameImg) {
             setFeedback('Please fill in all fields.');
             return;
         }
         // Create a newGame object to handle file uploads
         const newGame = {
             title,
-            console,
+            console: consoleName,
             price,
             rating,
             description,
@@ -54,7 +54,7 @@ const GameForm = () => {
 
         // Reset form fields
         setTitle('');
-        setConsole('');
+        setConsoleName('');
         setPrice('');
         setRating('');
         setDescription('');
@@ -90,11 +90,11 @@ const GameForm = () => {
 
                     <label htmlFor="console" className='form-label'>Console</label>
                     <input
-                        onChange={(e) => setConsole(e.target.value)}
+                        onChange={(e) => setConsoleName(e.target.value)}
                         type='text'
                         id="console"
                         name="console"
-                        value={console}
+                        value={consoleName}
                         className='form-input'
                         placeholder="Console (e.g. Nintendo Switch, Wii U, etc.)"
                     />

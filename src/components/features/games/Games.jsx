@@ -1,27 +1,31 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const Games = ({ editGameHandle, id, title, deleteGameHandle, image, console }) => {
 
     const [isEditing, setEditing] = useState(false)
     const [newTitle, setNewTitle] = useState('')
-    const [newConsole, setNewConsole] = useState('')
+    const [newConsole, setNewConsole] = useState(console)
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        editGameHandle(id, newTitle, title)
+        editGameHandle(id, newTitle, title, newConsole)
         setNewTitle('')
+        setNewConsole(console)
         setEditing(false)
     }
+    
 
 
     const editingTemplate = (
         <form className="stack-small game-list" onSubmit={handleSubmit}>
             <div className="row">
+                
                 <label className="view-label col" htmlFor={id}>
                     {title}
                 </label>
 
-                <img className='view-thumbnail img-fluid' src={image} />
+                <img className='view-thumbnail img-fluid' src={image} alt={title} />
 
                 <input
                     id={id}
@@ -32,14 +36,14 @@ const Games = ({ editGameHandle, id, title, deleteGameHandle, image, console }) 
                     placeholder='new title'
                 />
 
-                {/* <input
+                <input
                     id={id}
                     className="form-input col"
                     type='text'
                     value={newConsole}
                     onChange={(e) => setNewConsole(e.target.value)}
                     placeholder='new console'
-                /> */}
+                />
             </div>
 
             <div className="btn-group">
